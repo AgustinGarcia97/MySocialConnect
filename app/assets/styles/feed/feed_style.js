@@ -63,6 +63,7 @@ export const post_style = StyleSheet.create({
         padding:5,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#e0dad8',
 
 
 
@@ -70,10 +71,13 @@ export const post_style = StyleSheet.create({
     icon_container:{
 
         height:40,
-        width:'17%',
+        width:'20%',
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
+
+        cursor:'pointer'
+
 
 
 
