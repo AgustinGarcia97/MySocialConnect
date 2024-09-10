@@ -12,20 +12,21 @@ import React from 'react';
 let {width, height} = Dimensions.get('screen');
 
 const SlideItem = ({item}) => {
-    const translateYImage = new Animated.Value(40);
+    const translateYImage = new Animated.Value(0);
 
     Animated.timing(translateYImage, {
         toValue: 0,
-        duration: 1000,
+        duration: 500,
         useNativeDriver: true,
-        easing: Easing.bounce,
+
     }).start();
 
     return (
         <View style={styles.container}>
             <Animated.Image
-                source={item.img}
+                source={{uri: item.img}}
                 resizeMode="contain"
+
                 style={[
                     styles.image,
                     {
@@ -49,10 +50,12 @@ const styles = StyleSheet.create({
         width,
         height,
         alignItems: 'start',
+        maxHeight: 400,
+        maxWidth: 400,
 
     },
     image: {
-        flex: 0.5,
+        flex: 1,
         width: '100%',
 
     },

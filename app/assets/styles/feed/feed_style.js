@@ -22,12 +22,10 @@ export const feedStyles = StyleSheet.create({
 
 export const post_style = StyleSheet.create({
     container: {
-        height:700,
+        height:"auto",
         width:'100%',
-        backgroundColor: '#fff',
         alignItems: 'center',
         flexDirection: 'column',
-        margin:5,
         marginBottom:5,
         elevation: 0,
         borderWidth: 0,
@@ -46,41 +44,30 @@ export const post_style = StyleSheet.create({
     photo_container:{
         borderWidth: 0,
         height:100,
-        backgroundColor: '#e7b6b6',
+
     },
     post_photo:{
         width:'100%',
         height:'100%',
         borderRadius: 0,
-
     },
     social_container:{
-
         width:'100%',
-        bottom:500,
+        top:82,
+        height:180,
 
         flexDirection: 'row',
         padding:5,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#e0dad8',
-
-
-
     },
     icon_container:{
-
         height:40,
-        width:'20%',
+        width:'17%',
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
-
-        cursor:'pointer'
-
-
-
-
+        cursor:'pointer',
 
     },
     comment_container:{
@@ -90,5 +77,60 @@ export const post_style = StyleSheet.create({
 
 
 })
+
+export const modal_comments = StyleSheet.create({
+    modal_container: {
+
+        height:"100%",
+        padding:10,
+
+        flexDirection:'column',
+        justifyContent:'flex-end',
+
+
+
+    },
+    title_container: {
+        height:35,
+        flexDirection:'row',
+        justifyContent:'start',
+        alignItems:'center',
+    },
+    title_view:{
+        width:'90%',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    title:{
+        fontSize:18,
+        fontWeight: 'bold',
+        marginLeft:40,
+    },
+    comments_container:{
+        flexWrap:'wrap',
+        height:'auto',
+        width:'100%',
+
+        flexDirection:'row'
+
+    },
+    comment_user_pic:{
+        width:'10%',
+        backgroundColor:'#fff',
+    },
+    comment_add_comment: {
+        backgroundColor: '#fff',
+        width:'85%',
+        padding:5,
+        height:"auto",
+        margin:3,
+    },
+    comment_release_time:{
+        margin:4,
+
+    },
+
+});
+
 
 

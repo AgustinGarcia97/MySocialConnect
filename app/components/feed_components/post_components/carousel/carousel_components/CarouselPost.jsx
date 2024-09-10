@@ -35,7 +35,7 @@ export const CarouselPost = () => {
     }).current;
 
     return (
-        <View style={{height:500}}>
+        <View style={styles.carouselContainer}>
             <FlatList
                 data={Slides}
                 renderItem={({item}) => <SlideItem item={item} />}
@@ -47,11 +47,18 @@ export const CarouselPost = () => {
                 onViewableItemsChanged={handleOnViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
             />
-            <Pagination data={Slides} scrollX={scrollX} index={index} />
+            <Pagination data={Slides} scrollX={scrollX} index={index}/>
         </View>
     );
 };
 
 
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    carouselContainer: {
+        height:700, // Ajusta la altura del contenedor de todo el carrusel
+        width: '100%', // Ocupa todo el ancho disponible
+        position: 'relative',
+
+    },
+});
