@@ -5,10 +5,17 @@ export const InputPost = () => {
     const [text, setText] = React.useState("");
     return(
         <TextInput
-
-            style={feedStyles.input_text}
+            value={text}
             onChangeText={text => setText(text)}
-            placeholder="Que esta pasando"
+            multiline={true}
+
+            outlineStyle={{ borderWidth: 0.1 }}
+
+            contentStyle={{marginTop:17}}
+            selectionColor='black'
+            mode="outlined"
+            placeholder='Que esta pasando'
         />
+
     )
 }
