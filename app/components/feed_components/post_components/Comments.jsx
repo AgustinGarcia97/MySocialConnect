@@ -27,10 +27,10 @@ export const Comments = () => {
 
             <TouchableOpacity style={post_style.icon_container} onPress={ ()=>pressButton()} >
 
-                <IconButton
-                    icon="comment-outline"
-                    size={37}
-                    style={{margin:0,width:'50%'}}
+                <Icon
+                    name="comment-o"
+                    size={25}
+                    style={{margin:0,width:'40%'}}
                 />
                 <Text>
                     {100}

@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useDispatch, useSelector } from "react-redux";
 import { closeCommentModal } from "../../../../redux/slices/modalSlice";
+import {CommentsModalChildren} from "./CommentsModalChildren";
 
 export const BottomSheetContent = () => {
     const open = useSelector((state) => state.modal.open);  // Selecciona el estado global 'open'
@@ -10,7 +11,7 @@ export const BottomSheetContent = () => {
     const bottomSheetModalRef = useRef(null);
 
     // Snap points (tamaños a los que puede ajustarse el modal)
-    const snapPoints = useMemo(() => ['25%', '50%'], []);
+    const snapPoints = useMemo(() => [ '75%','100%'], []);
 
 
     const handleSheetChanges = useCallback((index) => {
@@ -34,11 +35,15 @@ export const BottomSheetContent = () => {
                 ref={bottomSheetModalRef}
                 index={1}  // Posición inicial del modal
                 snapPoints={snapPoints}  // Puntos a los que se ajusta el modal
-                onChange={handleSheetChanges}  // Cambios de estado del modal
+                onChange={handleSheetChanges}
+               // Cambios de estado del modal
             >
-                <View style={styles.contentContainer}>
-                    <Text>Aca van los comentarios</Text>
-                </View>
+
+
+
+                <CommentsModalChildren></CommentsModalChildren>
+
+
             </BottomSheetModal>
         </BottomSheetModalProvider>
     );
