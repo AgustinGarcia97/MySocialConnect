@@ -9,7 +9,7 @@ export const Navigation = () => {
         <NavigationContainer>
 
             <Stack.Navigator initialRouteName="Feed">
-                <Stack.Screen name="none" component={Feed}/>
+                <Stack.Screen name="none" component={Feed} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
