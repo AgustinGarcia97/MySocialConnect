@@ -1,16 +1,20 @@
 import {NavigationContainer} from "@react-navigation/native";
 import {Feed} from "../views/Feed";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+
 import {Navbar} from "../components/Navbar";
-const Stack = createNativeStackNavigator();
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {Profile} from "../views/Profile";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator();
 
 export const Navigation = () => {
     return (
-        <NavigationContainer>
 
-            <Stack.Navigator initialRouteName="Feed">
-                <Stack.Screen name="none" component={Feed} options={{ headerShown: false }} />
-            </Stack.Navigator>
+        <NavigationContainer>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={Feed} />
+                <Tab.Screen name="Settings" component={Profile} />
+            </Tab.Navigator>
         </NavigationContainer>
     )
 }

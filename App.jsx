@@ -19,7 +19,6 @@ function App() {
          <PaperProvider>
              <GestureHandlerRootView style={{ flex: 1 }}>
                  <StatusBar barStyle="light-content" />
-                 <Navbar></Navbar>
                  <Navigation></Navigation>
              </GestureHandlerRootView>
          </PaperProvider>
