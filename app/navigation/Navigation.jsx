@@ -12,8 +12,8 @@ export const Navigation = () => {
 
         <NavigationContainer>
             <Tab.Navigator>
-                <Tab.Screen name="Home" component={Feed} />
-                <Tab.Screen name="Settings" component={Profile} />
+                <Tab.Screen name="Home" component={Feed} options={{ }} />
+                <Tab.Screen name="Settings" component={Profile} options={{headerShown: false}} />
             </Tab.Navigator>
         </NavigationContainer>
     )
