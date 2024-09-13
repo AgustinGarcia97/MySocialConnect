@@ -38,7 +38,7 @@ export const ProfileTabView = () => {
                 first: UserPostsComponent,
                 second: LikedPostsComponent,
             })}
-            onIndexChange={setIndex} // Cambiamos el estado del índice del tab
+            onIndexChange={setIndex}
             initialLayout={{ width: Dimensions.get('window').width }}
             style={styles.container}
             renderTabBar={renderTabBar}

@@ -14,9 +14,6 @@ export const Feed = () => {
     const open = useSelector((state) => state.modal.open);
     return (
         <View style={feedStyles.feed_layout}>
-            <View>
-                <Text>Feed</Text>
-            </View>
             <View style={feedStyles.text_container}>
                 <InputPost></InputPost>
             </View>
