@@ -41,4 +41,19 @@ export default [
     description: 'Unlock your door with your phone',
     price: '$199',
   },
+  {
+    id: 7,
+    img: 'https://images.pexels.com/photos/27664488/pexels-photo-27664488/free-photo-of-blanco-y-negro-rio-iglesia-alemania.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    title: 'Smart Lock',
+    description: 'Unlock your door with your phone',
+    price: '$199',
+  },
+  {
+    id: 8,
+    img: 'https://images.pexels.com/photos/27664488/pexels-photo-27664488/free-photo-of-blanco-y-negro-rio-iglesia-alemania.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    title: 'Smart Lock',
+    description: 'Unlock your door with your phone',
+    price: '$199',
+  },
+
 ];
