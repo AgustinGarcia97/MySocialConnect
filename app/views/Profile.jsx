@@ -11,13 +11,8 @@ export const Profile = () => {
     const post = [1,2,3,4];
     return (
         <View style={{...profile_style.profile_container}}>
-            <View style={{...profile_style.header_options_container}}>
-                <TouchableOpacity>
-                    <Icon
-                        name={'chevron-back'}
-                        size={30}
-                    />
-                </TouchableOpacity>
+            <View style={{...profile_style.header_options_container,flexDirection: 'row-reverse'}}>
+
                 <TouchableOpacity style={{...profile_style.options_button}}>
                     <Text style={{...profile_style.options_button_text}}>Editar Perfil</Text>
                 </TouchableOpacity>
