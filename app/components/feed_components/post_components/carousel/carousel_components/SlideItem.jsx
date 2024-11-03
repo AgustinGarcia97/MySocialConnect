@@ -49,14 +49,16 @@ const styles = StyleSheet.create({
     container: {
         width,
         height,
-        alignItems: 'start',
+        alignItems: 'center',
         maxHeight: 400,
-        maxWidth: 400,
+        maxWidth: '100%',
+
 
     },
     image: {
         flex: 1,
         width: '100%',
+        objectFit: 'cover',
 
     },
 

@@ -6,11 +6,11 @@ import { closeCommentModal } from "../../../../redux/slices/modalSlice";
 import {CommentsModalChildren} from "./CommentsModalChildren";
 
 export const BottomSheetContent = () => {
-    const open = useSelector((state) => state.modal.open);  // Selecciona el estado global 'open'
+    const open = useSelector((state) => state.modal.open);
     const dispatch = useDispatch();
     const bottomSheetModalRef = useRef(null);
 
-    // Snap points (tamaños a los que puede ajustarse el modal)
+
     const snapPoints = useMemo(() => [ '75%','100%'], []);
 
 
@@ -23,9 +23,9 @@ export const BottomSheetContent = () => {
 
     useEffect(() => {
         if (open) {
-            bottomSheetModalRef.current?.present();  // Abre el modal si 'open' es true
+            bottomSheetModalRef.current?.present();
         } else {
-            bottomSheetModalRef.current?.dismiss();  // Cierra el modal si 'open' es false
+            bottomSheetModalRef.current?.dismiss();
         }
     }, [open]);
 
@@ -33,10 +33,11 @@ export const BottomSheetContent = () => {
         <BottomSheetModalProvider>
             <BottomSheetModal
                 ref={bottomSheetModalRef}
-                index={1}  // Posición inicial del modal
-                snapPoints={snapPoints}  // Puntos a los que se ajusta el modal
+                index={1}
+                snapPoints={snapPoints}
                 onChange={handleSheetChanges}
-               // Cambios de estado del modal
+
+
             >
 
 

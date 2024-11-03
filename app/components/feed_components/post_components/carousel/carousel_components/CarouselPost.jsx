@@ -47,7 +47,7 @@ export const CarouselPost = () => {
                 onViewableItemsChanged={handleOnViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
             />
-            <Pagination data={Slides} scrollX={scrollX} index={index}/>
+           <Pagination data={Slides} scrollX={scrollX} index={index}/>
         </View>
     );
 };
@@ -56,9 +56,8 @@ export const CarouselPost = () => {
 
 const styles = StyleSheet.create({
     carouselContainer: {
-        height:700, // Ajusta la altura del contenedor de todo el carrusel
-        width: '100%', // Ocupa todo el ancho disponible
+        height:700,
+        width: '100%',
         position: 'relative',
-
     },
 });

@@ -4,7 +4,6 @@ import {Image, TouchableOpacity, View} from "react-native";
 
 import {Text, TextInput} from "react-native-paper";
 import {createAccountStyle, register_style} from "../../../assets/styles/register/register_style";
-import {create} from "react-test-renderer";
 
 
 const input_list = [

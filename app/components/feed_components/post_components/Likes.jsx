@@ -17,17 +17,12 @@ export const Likes = () => {
                 name={isPressed ? "heart" : "heart-alt"}
                 size={22}
                 color={isPressed ? '#d73232' : '#d2d4d7'}
-                style={{ margin: 0, width: '40%',color: isPressed ? 'red' : 'black' }}
+                style={{ marginLeft: 2,color: isPressed ? 'red' : 'black' }}
                 rippleColor={isPressed ? 'red' : 'black'}
 
             />
-            <Text>
-                {100}
-            </Text>
+
         </TouchableOpacity>
     );
 };
 
-const styles = StyleSheet.create({
-    // Aquí puedes agregar otros estilos si es necesario
-});

@@ -29,12 +29,10 @@ export const Comments = () => {
 
                 <Icon
                     name="comment-o"
-                    size={25}
-                    style={{margin:0,width:'40%'}}
+                    size={27}
+                    style={{marginBottom:2}}
                 />
-                <Text>
-                    {100}
-                </Text>
+
             </TouchableOpacity>
 
         </>

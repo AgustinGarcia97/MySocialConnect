@@ -1,17 +1,26 @@
 import {StyleSheet} from "react-native";
 
+const background = 'rgb(93,87,160)';
+const linear_background = 'linear-gradient(180deg, rgba(93,87,160,1) 35%, rgba(35,33,62,1) 100%)'
+
+
+
 export const feedStyles = StyleSheet.create({
     feed_layout: {
         flexDirection: 'column',
-        backgroundColor: '#ffffff',
+
         height:'100%',
         alignItems: 'center',
+
         width: '100%',
 
     },
     text_container: {
         width:"90%",
         padding:10,
+        height:100,
+        marginVertical:10,
+        justifyContent:'center',
     },
 
     input_text:{
@@ -23,16 +32,23 @@ export const feedStyles = StyleSheet.create({
 export const post_style = StyleSheet.create({
     container: {
         height:"auto",
-        width:'100%',
+        width:'99%',
         alignItems: 'center',
         flexDirection: 'column',
-        marginBottom:5,
+        marginBottom:15,
         elevation: 0,
         borderWidth: 0,
+        backgroundColor: '#ffffff',
+        marginVertical:30,
+        justifyContent:'center',
+
+
     },
     title_container:{
         width:'100%',
         borderWidth: 0,
+        padding:10,
+
     },
     text_container: {
         width:"90%",
@@ -44,26 +60,33 @@ export const post_style = StyleSheet.create({
     photo_container:{
         borderWidth: 0,
         height:100,
+        justifyContent: 'center',
+        alignItems:'center',
 
     },
     post_photo:{
         width:'100%',
         height:'100%',
         borderRadius: 0,
+        justifyContent: 'center',
+        alignItems:'center',
+
     },
     social_container:{
         width:'100%',
         top:82,
-        height:180,
-
+        height:200,
+        marginLeft:11,
         flexDirection: 'row',
-        padding:5,
+
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     icon_container:{
-        height:40,
-        width:'17%',
+        height:30,
+
+        width:40,
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
@@ -72,7 +95,9 @@ export const post_style = StyleSheet.create({
     },
     comment_container:{
         width:'15%',
-        backgroundColor:'blue'
+        backgroundColor:'blue',
+
+
     }
 
 

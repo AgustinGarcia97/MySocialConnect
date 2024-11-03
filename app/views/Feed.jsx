@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import {ScrollView, View} from "react-native";
 
-import {Post} from "../components/feed_components/Post";
+import {Post} from "./Post";
 import {InputPost} from "../components/feed_components/post_components/InputPost";
 import {feedStyles} from "../assets/styles/feed/feed_style";
 import {BottomSheetContent} from "../components/feed_components/post_components/comments_modal/CommentsModal";
 import { useDispatch, useSelector } from 'react-redux';
 import {closeCommentModal} from "../redux/slices/modalSlice";
+import {CreatePostModal} from "../components/feed_components/create_post_components/CreatePostModal";
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 
 export const Feed = () => {
@@ -24,6 +25,9 @@ export const Feed = () => {
                 </View>
             </ScrollView>
             <BottomSheetContent isVisible={open} onDismiss={() => dispatch(closeCommentModal())}/>
+            <CreatePostModal ></CreatePostModal>
+
+
         </View>
     );
 };

@@ -50,10 +50,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top:400,
         flexDirection: 'row',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
+
+
         padding:7,
+
+        marginLeft:120
 
     },
     dot: {
@@ -62,8 +63,9 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginHorizontal: 3,
         backgroundColor: '#ccc',
+
     },
     dotActive: {
-        backgroundColor: '#d97715'
+        backgroundColor: '#25007b'
     },
 })
