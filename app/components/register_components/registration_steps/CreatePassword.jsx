@@ -81,8 +81,8 @@ export const CreatePassword = ({navigation}) => {
                 </View>
 
                 <TouchableOpacity onPress={() => navigation.navigate('Feed')}>
-                    <View style={{...createAccountStyle.next_button}}>
-                        <Text style={{...createAccountStyle.text_button}}>Registrarse</Text>
+                    <View style={{...createAccountStyle.next_button,backgroundColor:'#475a7e'}}>
+                        <Text style={{...createAccountStyle.text_button,fontSize:20}}>Registrarse</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={{...register_style.existing_account_container,height:40,

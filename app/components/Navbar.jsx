@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 export const Navbar = ({navigation}) => {
 
     return(
-        <Appbar.Header>
+        <Appbar.Header >
             <Appbar.BackAction onPress={() => {navigation.navigate("Feed")}} />
             <Appbar.Content title="Title" />
             <Appbar.Action icon="calendar" onPress={() => {navigation.navigate('Profile')}} />

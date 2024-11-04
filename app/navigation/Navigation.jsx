@@ -27,6 +27,9 @@ export const Navigation = () => {
                     headerRight: () => <CustomHeaderButton navigation={navigation} />,
                     drawerPosition: 'right',
                     headerLeft: () => null,
+                    headerStyle: {
+                        backgroundColor: '#475a7e',
+                    },
 
                 })}
 
