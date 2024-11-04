@@ -1,7 +1,7 @@
 import {View,Text,StyleSheet} from "react-native";
 import AvatarIcon from "react-native-paper/src/components/Avatar/AvatarIcon";
 import {Avatar} from "react-native-paper";
-import {modal_comments} from "../../../assets/styles/feed/feed_style";
+import {modal_comments} from "../../../../assets/styles/feed/feed_style";
 
 export const UserData = () => {
     return(

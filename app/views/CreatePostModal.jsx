@@ -1,13 +1,13 @@
 import {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet";
-import {CommentsModalChildren} from "../post_components/comments_modal/CommentsModalChildren";
+import {CommentsModalChildren} from "../components/feed_components/post_components/comments_modal/CommentsModalChildren";
 import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import {Text, TouchableOpacity, View} from "react-native";
-import {closeCommentModal, closePostModal} from "../../../redux/slices/modalSlice";
+import {closeCommentModal, closePostModal} from "../redux/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import SelectPhoto from "./SelectPhoto";
-import {UserData} from "./UserData";
-import {TextComponent} from "./TextComponent";
-import {Options} from "./Options";
+import SelectPhoto from "../components/feed_components/create_post_components/components/SelectPhoto";
+import {UserData} from "../components/feed_components/create_post_components/components/UserData";
+import {TextComponent} from "../components/feed_components/create_post_components/components/TextComponent";
+import {Options} from "../components/feed_components/create_post_components/components/Options";
 export const  CreatePostModal =  props => {
     const bottomSheetModalRef = useRef(null);
     const snapPoints = useMemo(() => [ '75%','100%'], []);

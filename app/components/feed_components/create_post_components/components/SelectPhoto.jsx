@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
-import PhotoIcon from "../../../assets/icons/PhotoIcon";
+import PhotoIcon from "../../../../assets/icons/PhotoIcon";
 import Icon from 'react-native-vector-icons/Fontisto';
 const ImagePickerComponent = () => {
     const [images, setImages] = useState([null, null, null, null]);
