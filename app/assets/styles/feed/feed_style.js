@@ -8,7 +8,7 @@ const linear_background = 'linear-gradient(180deg, rgba(93,87,160,1) 35%, rgba(3
 export const feedStyles = StyleSheet.create({
     feed_layout: {
         flexDirection: 'column',
-
+        backgroundColor:'#D9D7CE',
         height:'100%',
         alignItems: 'center',
 
@@ -41,6 +41,7 @@ export const post_style = StyleSheet.create({
         backgroundColor: '#ffffff',
         marginVertical:30,
         justifyContent:'center',
+        borderRadius:20,
 
 
     },
@@ -48,6 +49,7 @@ export const post_style = StyleSheet.create({
         width:'100%',
         borderWidth: 0,
         padding:10,
+        backgroundColor:'#475a7e'
 
     },
     text_container: {
@@ -56,6 +58,7 @@ export const post_style = StyleSheet.create({
     },
     post_title: {
         width:"100%",
+        color:'#fff'
     },
     photo_container:{
         borderWidth: 0,

@@ -1,65 +1,29 @@
-import {
-    Image,
-    StyleSheet,
-    Text,
-    View,
-    Dimensions,
-    Animated,
-    Easing,
-} from 'react-native';
-import React from 'react';
+import {Image, useWindowDimensions, View,StyleSheet} from "react-native";
+import * as React from "react";
 
-let {width, height} = Dimensions.get('screen');
+export const SlideItem = ({item}) => {
+    const {width} = useWindowDimensions();
 
-const SlideItem = ({item}) => {
-    const translateYImage = new Animated.Value(0);
-
-    Animated.timing(translateYImage, {
-        toValue: 0,
-        duration: 500,
-        useNativeDriver: true,
-
-    }).start();
-
-    return (
-        <View style={styles.container}>
-            <Animated.Image
-                source={{uri: item.img}}
-                resizeMode="contain"
-
-                style={[
-                    styles.image,
-                    {
-                        transform: [
-                            {
-                                translateY: translateYImage,
-                            },
-                        ],
-                    },
-                ]}
-            />
-
+    return(
+        <View style = {{...styles.container,width}}>
+            <Image style={{...styles.image}}   source={{uri: item.img}}/>
         </View>
-    );
-};
-
-export default SlideItem;
+    )
+}
 
 const styles = StyleSheet.create({
-    container: {
-        width,
-        height,
+    container:{
+
+        justifyContent:'center',
         alignItems: 'center',
-        maxHeight: 400,
-        maxWidth: '100%',
-
-
+        height:500,
     },
-    image: {
-        flex: 1,
+    image:{
+
+        justifyContent:'center',
         width: '100%',
-        objectFit: 'cover',
+        height: 500,
 
-    },
 
-});
+    }
+})

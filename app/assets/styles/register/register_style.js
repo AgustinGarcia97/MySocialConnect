@@ -1,7 +1,7 @@
 export const register_style = {
     register_container:{
         alignItems:'center',
-        backgroundColor:'#e7e6e6',
+        backgroundColor:'#D9D7CE',
         height:'100%',
     },
     register_logo_container:{
