@@ -6,6 +6,7 @@ import {Navigation} from "./app/navigation/Navigation";
 import {Navbar} from "./app/components/Navbar";
 import {Provider} from "react-redux";
 import store from "./app/redux/store";
+import {NavigationContainer} from "@react-navigation/native";
 
 
 
@@ -19,7 +20,10 @@ function App() {
          <PaperProvider>
              <GestureHandlerRootView style={{ flex: 1 }}>
                  <StatusBar barStyle="light-content" />
-                 <Navigation></Navigation>
+                 <NavigationContainer>
+                     <Navigation></Navigation>
+                 </NavigationContainer>
+
              </GestureHandlerRootView>
          </PaperProvider>
       </Provider>

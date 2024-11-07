@@ -4,6 +4,7 @@ import {Image, TouchableOpacity, View} from "react-native";
 
 import {Text, TextInput} from "react-native-paper";
 import {createAccountStyle, register_style} from "../../../assets/styles/register/register_style";
+import {fetch_login} from "../../../api/fetch_user_data";
 
 
 const input_list = [
@@ -35,6 +36,13 @@ export const CreatePassword = ({navigation}) => {
             default:
                 alert(label);
         }
+    }
+
+    const handleRegister = () => {
+        const fetch = () => fetch_login;
+        alert(fetch);
+
+
     }
     return(
         <View style={{...createAccountStyle.create_account_container}}>

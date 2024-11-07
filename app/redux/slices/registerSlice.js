@@ -15,8 +15,6 @@ export const registerSlice = createSlice({
     reducers:{
         setNameSlice: (state, action) => {
             state.name = action.payload.name;
-            alert(state.name);
-
 
         },
         setEmailSlice: (state, action) => {

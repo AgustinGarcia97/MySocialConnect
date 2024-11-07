@@ -6,6 +6,7 @@ const initialState = {
     openPostModal:false,
     openTagPeopleModal:false,
     openLocationModal:false,
+    n:false,
 }
 
 export const modalSlice = createSlice({
@@ -41,6 +42,12 @@ export const modalSlice = createSlice({
         },
         closeLocationModal: (state) =>{
             state.openLocationModal = false;
+        },
+        openTaggedPeopleModal: (state) => {
+            state.openTaggedPeopleModal = true;
+        },
+        closeTaggedPeopleModal: (state) => {
+            state.openTaggedPeopleModal = false;
         }
 
     },
@@ -54,5 +61,7 @@ export const {
     openTagPeopleModal,
     closeTagPeopleModal,
     openLocationModal,
-    closeLocationModal
+    closeLocationModal,
+    openTaggedPeopleModal,
+    closeTaggedPeopleModal
 } = modalSlice.actions;

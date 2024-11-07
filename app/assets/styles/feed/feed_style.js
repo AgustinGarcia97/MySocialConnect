@@ -17,9 +17,9 @@ export const feedStyles = StyleSheet.create({
     },
     text_container: {
         width:"90%",
-        padding:10,
-        height:100,
-        marginVertical:10,
+        border:'1px solid black',
+        height:'auto',
+        marginVertical:20,
         justifyContent:'center',
     },
 

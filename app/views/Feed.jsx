@@ -1,46 +1,64 @@
-import * as React from 'react';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
-import {FlatList, ScrollView, View} from "react-native";
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GeneralPost } from "../components/feed_components/tabs/GeneralPost";
+import { FollowedPost } from "../components/feed_components/tabs/FollowedPost";
+import { fetch_posts } from "../api/fetch_post";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getToken } from "../api/token/manage_token";
+import { useIsFocused } from "@react-navigation/native";
 
-import {Post} from "./Post";
-import {InputPost} from "../components/feed_components/post_components/InputPost";
-import {feedStyles} from "../assets/styles/feed/feed_style";
-import {BottomSheetContent} from "../components/feed_components/post_components/comments_modal/CommentsModal";
-import { useDispatch, useSelector } from 'react-redux';
-import {closeCommentModal} from "../redux/slices/modalSlice";
-import {CreatePostModal} from "./CreatePostModal";
-import {TagPeople} from "../components/feed_components/create_post_components/tag_people/TagPeople";
-import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";
-const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
-
-export const Feed = () => {
-    const open = useSelector((state) => state.modal.open);
-    const postsData = [1,2,3,4,5,6,7,8,9]
+const renderTabBar = (props) => {
     return (
-        <View style={feedStyles.feed_layout}>
-            <View style={feedStyles.text_container}>
-                <InputPost></InputPost>
-            </View>
-            <View    style={{marginVertical: 20}}>
-                <FlatList
-                    data={postsData}
-                    keyExtractor={(item) =>item}
-                    renderItem={({ item }) => (
-                        <Post content={item} />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={<View style={{height:10}}/>}
-                />
-            </View>
-
-            <BottomSheetContent isVisible={open} onDismiss={() => dispatch(closeCommentModal())}/>
-            <CreatePostModal ></CreatePostModal>
-            <TagPeople/>
-            <AddLocationModal/>
-
-
-        </View>
+        <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: '#1e325b' }}
+            style={{ backgroundColor: '#fcf9f9' }}
+            labelStyle={{ fontSize: 12, fontWeight: '500', color: "#3aa2f3" }}
+        />
     );
 };
 
+export const Feed = () => {
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'first', title: 'General' },
+        { key: 'second', title: 'Seguidos' },
+    ]);
+    const dispatch = useDispatch();
+    const isFocused = useIsFocused();
+    const token = useSelector(state => state.user.token);
 
+    useEffect(() => {
+        if (isFocused) {
+            fetch_posts(dispatch);
+        }
+    }, [dispatch, isFocused]);
+
+    return (
+        token ? (
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={SceneMap({
+                    first: GeneralPost,
+                    second: FollowedPost,
+                })}
+                onIndexChange={setIndex}
+                initialLayout={{ width: Dimensions.get('window').width }}
+                renderTabBar={renderTabBar}
+            />
+        ) : (
+            <GeneralPost /> // Mostrar solo los posts generales si no hay token
+        )
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    scene: {
+        flex: 1,
+    },
+});

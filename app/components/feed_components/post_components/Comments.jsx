@@ -10,22 +10,24 @@ import {BottomSheetView} from "@gorhom/bottom-sheet";
 import {BottomSheetContent} from "./comments_modal/CommentsModal";
 import {useDispatch} from "react-redux";
 import {closeCommentModal, openCommentModal} from "../../../redux/slices/modalSlice";
+import {setActualPost} from "../../../redux/slices/postSlice";
 
-export const Comments = () => {
+export const Comments = ({item}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleOpenModal = () => setIsModalVisible(true);
     const handleCloseModal = () => setIsModalVisible(false);
     const dispatch = useDispatch();
-    const pressButton = () => {
+    const pressButton = (item) => {
         dispatch(openCommentModal());
+        dispatch(setActualPost(item));
 
     }
 
     return(
         <>
 
-            <TouchableOpacity style={post_style.icon_container} onPress={ ()=>pressButton()} >
+            <TouchableOpacity style={post_style.icon_container} onPress={ ()=>pressButton(item)} >
 
                 <Icon
                     name="comment-o"
