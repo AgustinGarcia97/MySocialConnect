@@ -17,11 +17,10 @@ export const fetch_login = async (dispatch, auth) => {
         if(response.ok){
             const data = await response.json();
             console.log(data);
-            alert('Login OK');
             dispatch(fetchUserData(data));
             return data;
         } else {
-            const errorData = await data.json();
+            const errorData = await response.json();
             dispatch(fetchUserError());
             alert('Login failed:', errorData);
             return null;

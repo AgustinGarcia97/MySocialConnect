@@ -8,11 +8,19 @@ import SelectPhoto from "../components/feed_components/create_post_components/co
 import {UserData} from "../components/feed_components/create_post_components/components/UserData";
 import {TextComponent} from "../components/feed_components/create_post_components/components/TextComponent";
 import {Options} from "../components/feed_components/create_post_components/components/Options";
+import {createPost} from "../redux/slices/postSlice";
+import {fetchCreatePost} from "../api/fetch_post";
 export const  CreatePostModal =  props => {
     const bottomSheetModalRef = useRef(null);
     const snapPoints = useMemo(() => [ '75%','100%'], []);
     const dispatch = useDispatch();
-
+    const title = useSelector((store) => { return store.posts.title});
+    const description = useSelector((store) => { return store.posts.description});
+    const name = useSelector((store) => { return store.posts.name});
+    const lastname = useSelector((store) => { return store.posts.lastname} );
+    const photos = useSelector((store) => { return store.posts.photos});
+    const location = useSelector((store) => { return store.posts.location});
+    const userId = useSelector((store) => { return store.user.userId});
     const open = useSelector((state) => state.modal.openPostModal);
     const handleSheetChanges = useCallback((index) => {
         if (index === -1) {
@@ -29,6 +37,21 @@ export const  CreatePostModal =  props => {
     }, [open]);
 
 
+    const handleCreatePost = async (dispatch) => {
+
+
+        const data = {
+            title:"",
+            description,
+            photos,
+            location,
+            userId,
+        }
+
+        await fetchCreatePost(data,dispatch);
+
+
+    }
 
     return(
         <BottomSheetModalProvider >
@@ -59,7 +82,10 @@ export const  CreatePostModal =  props => {
                             height:50,
                             justifyContent:'center',
                             alignItems: 'center'
-                        }}>
+                        }}
+                        onPress={() => handleCreatePost(dispatch)}
+
+                        >
                             <View style={{}}>
                                 <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>PUBLICAR</Text>
                             </View>

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getToken } from "../api/token/manage_token";
 import { useIsFocused } from "@react-navigation/native";
+import {fetchPostsSuccess} from "../redux/slices/postSlice";
 
 const renderTabBar = (props) => {
     return (
@@ -29,12 +30,9 @@ export const Feed = () => {
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
     const token = useSelector(state => state.user.token);
+    const [posts, setPots] = useState([]);
 
-    useEffect(() => {
-        if (isFocused) {
-            fetch_posts(dispatch);
-        }
-    }, [dispatch, isFocused]);
+    fetch_posts(dispatch);
 
     return (
         token ? (
@@ -49,7 +47,7 @@ export const Feed = () => {
                 renderTabBar={renderTabBar}
             />
         ) : (
-            <GeneralPost /> // Mostrar solo los posts generales si no hay token
+            <GeneralPost />
         )
     );
 };

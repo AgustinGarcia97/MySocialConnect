@@ -11,25 +11,28 @@ import { TagPeople } from "../create_post_components/tag_people/TagPeople";
 import { AddLocationModal } from "../create_post_components/add_location/AddLocationModal";
 import { TaggedPeople } from "../post_components/tagged_people/TaggedPeople";
 import * as React from "react";
+import {fetch_posts} from "../../../api/fetch_post";
 
 export const GeneralPost = () => {
     const dispatch = useDispatch();
     const open = useSelector((state) => state.modal.open);
-    const posts = useSelector((state) => state.posts.posts);
+    const posts = useSelector((store) => {return store.posts.posts});
 
-
-    useEffect(() => {
-        if (posts.length > 0) {
-            console.log("GENERAL POST:", posts[0].postId);
+    useEffect(()=>{
+        const getPost = async () => {
+            await fetch_posts();
         }
-    }, [posts]);
+            getPost();
+    },[posts])
+
+
 
     const renderPostsList = () => (
         posts && posts.length > 0 ? (
             <FlatList
                 data={posts}
-                keyExtractor={(item) => item.postId.toString()}
-                renderItem={({ item }) => <Post item={item} />}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => item?.postId ? <Post item={item} /> : null}
                 showsVerticalScrollIndicator={false}
                 ItemSeparatorComponent={<View style={{ height: 10 }} />}
             />

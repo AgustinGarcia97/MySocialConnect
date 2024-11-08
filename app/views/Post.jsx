@@ -36,6 +36,7 @@ export const Post = ({item}) => {
 
 
     const handlePressButton = () => {
+        alert(item.postId)
         dispatch(setActualPost(item));
         dispatch(openCommentModal());
     }

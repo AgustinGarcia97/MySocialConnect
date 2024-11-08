@@ -5,7 +5,8 @@ import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet
 import {View, Text, ImageBackground, Button, TouchableOpacity} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import 'react-native-get-random-values';
-import {addLocation, removeLocation} from "../../../../redux/slices/createPostSlice";
+import {addLocation} from "../../../../redux/slices/postSlice";
+
 
 export const AddLocationModal = () => {
     const bottomSheetModalRef = useRef(null);
@@ -24,7 +25,7 @@ export const AddLocationModal = () => {
     }
 
     const handlerRemoveLocation = () => {
-        dispatch(removeLocation());
+
         setDirection("");
     }
 

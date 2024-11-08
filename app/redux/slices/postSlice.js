@@ -9,6 +9,14 @@ const initialState = {
     actualPost:[],
     comment_actualPost: {},
     likes_actualPost: {},
+    title: "",
+    description: "",
+    photos: [],
+    comments:[],
+    location: "",
+    userId:"",
+
+
 }
 
 export const postsSlice = createSlice({
@@ -19,6 +27,7 @@ export const postsSlice = createSlice({
             state.loading = true;
         },
         fetchPostsSuccess:(state, action) => {
+            console.log(action.payload);
             state.loading = false;
             state.posts = [
                 ...state.posts,
@@ -33,31 +42,63 @@ export const postsSlice = createSlice({
             state.error = true;
         },
         setActualPost: (state, action) =>{
+
             state.actualPost = action.payload;
+            console.log("setActualPost", state.actualPost);
             state.comment_actualPost = action.payload.comments;
 
         },
         addComment: (state, action) => {
-            // Crea una nueva referencia de `actualPost` con el comentario añadido
+
                 state.actualPost = {
                 ...state.actualPost,
-                comments: [...state.actualPost.comments, action.payload] // Cambiar la referencia de comments
-            }},
+                comments: [...state.actualPost.comments, action.payload]
+            }
+            console.log("ADD COMMENT:",state.actualPost.comments);
+            },
         updateCommentLikes: (state, action) => {
             const {commentId, userId} = action.payload;
 
-            // Encuentra el comentario por ID
+
             const comment = state.actualPost.comments.find(c => c.commentId === commentId);
             if (comment) {
-                // Si el usuario ya ha dado like, elimina el like
+
                 if (comment.likes.includes(userId)) {
                     comment.likes = comment.likes.filter(id => id !== userId);
                 } else {
-                    // Si no ha dado like, añade el like
+
                     comment.likes.push(userId);
                 }
             }
+        },
+        createPost: (state, action) => {
+            state.title = action.payload.title;
+
+            state.location = action.payload.location;
+            state.userId = action.payload.userId;
+
+        },
+        addDescription: (state, action) => {
+            state.description += action.payload.description;
+        },
+        addTitle:  (state, action) =>{
+            state.title += action.payload.title;
+        },
+
+        addPhotos: (state, action) => {
+            alert(action.payload);
+            state.images = [...state.images, action.payload];
+        },
+        addLocation: (state, action) => {
+            state.location = action.payload.location;
+        },
+
+        addPosts: (state, action) => {
+            state.posts = [...state.posts,action.payload.post];
+
         }
+
+
 
     }
 })
@@ -68,5 +109,11 @@ export const {
     fetchPostFailure,
     setActualPost,
     addComment,
-    updateCommentLikes
+    updateCommentLikes,
+    createPost,
+    addTitle,
+    addPhotos,
+    addDescription,
+    addLocation,
+    addPosts
 } = postsSlice.actions;

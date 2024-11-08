@@ -29,6 +29,10 @@ export const BottomSheetContent = () => {
         }
     }, [open]);
 
+
+
+
+
     return (
         <BottomSheetModalProvider>
             <BottomSheetModal

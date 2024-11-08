@@ -1,10 +1,17 @@
 import {View,StyleSheet} from "react-native";
 import {TextInput} from "react-native-paper";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {addDescription, addTitle} from "../../../../redux/slices/postSlice";
 
 export const TextComponent = () => {
     const [text, setText] = useState('');
+    const dispatch = useDispatch();
 
+    const handleTextChange = (inputText) => {
+        dispatch(addDescription(inputText))
+        setText(inputText)
+    }
 
     return(
         <View style={styles.container}>
@@ -15,7 +22,7 @@ export const TextComponent = () => {
                 multiline={true}
                 numberOfLines={4}
                 value={text}
-                onChangeText={setText}
+                onChangeText={handleTextChange}
                 textAlignVertical="top"
 
             />

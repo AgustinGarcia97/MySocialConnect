@@ -1,4 +1,4 @@
-import {fetchPostFailure, fetchPostsSuccess, fetchPostStart, setActualPost} from "../redux/slices/postSlice";
+import {addPosts, fetchPostFailure, fetchPostsSuccess, fetchPostStart} from "../redux/slices/postSlice";
 import data from "../components/feed_components/post_components/carousel/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -13,9 +13,9 @@ export const fetch_posts =  async (dispatch) => {
         const response = await fetch("http://10.0.2.2:8080/api/v1/posts/fetch",options);
         if(response.ok){
             const data = await response.json();
-
             dispatch(fetchPostsSuccess(data));
             return data;
+
         } else {
             const errorData = await data.json();
             dispatch(fetchPostFailure());
@@ -29,7 +29,8 @@ export const fetch_posts =  async (dispatch) => {
     }
 }
 
-export const fetch_post = async (dispatch) => {
+export const fetch_post = async (postId,dispatch) => {
+
     try{
         const token = await AsyncStorage.getItem('userToken');
         const options = {
@@ -40,10 +41,10 @@ export const fetch_post = async (dispatch) => {
             },
         }
         dispatch(fetchPostStart());
-        const response = await fetch("http://10.0.2.2:8080/post/{postId}",options);
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/${postId}`,options);
+
         if(response.ok){
             const data = await response.json();
-            dispatch(fetchPostsSuccess());
             return {
                 postId: data.postId,
                 title: data.title,
@@ -57,7 +58,7 @@ export const fetch_post = async (dispatch) => {
             console.log("Error en la solicitud: ", response.statusText);
         }
     } catch (error) {
-        console.error("Error en la solicitud:", error);
+        console.error("Error en la solicitud catch:", error);
     }
 
 }
@@ -65,7 +66,8 @@ export const fetch_post = async (dispatch) => {
 export const fetchCreateComment = async (dispatch,data) => {
     try {
         const token = await AsyncStorage.getItem('userToken');
-
+        dispatch(fetchPostStart());
+        alert(1);
         const options = {
             method: 'POST',
             headers: {
@@ -74,6 +76,7 @@ export const fetchCreateComment = async (dispatch,data) => {
             },
             body: JSON.stringify(data),
         };
+
 
         const response = await fetch("http://10.0.2.2:8080/api/v1/comments/create", options);
 
@@ -91,6 +94,47 @@ export const fetchCreateComment = async (dispatch,data) => {
         }
     } catch (error) {
         console.error("Error en la solicitud:", error);
+    }
+}
+
+export const fetchCreatePost =  async (data,dispatch) => {
+    try{
+        const token = await AsyncStorage.getItem('userToken');
+        console.log('BODY: '+data);
+        const options = {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' +  token,
+            },
+            body: JSON.stringify(data),
+        }
+
+        const response = await fetch("http://10.0.2.2:8080/api/v1/posts/create", options);
+        if (response.ok) {
+            const data = await response.json();
+            const newPost = {
+                postId: data.postId,
+                title: data.title,
+                description: data.description,
+                photos: data.photos,
+                location: data.location,
+                name: data.user.name,
+                userId: data.user.userId,
+                lastname: data.user.lastname,
+                likes: data.likes,
+                comments: data.comments,
+            }
+            console.log("NEWPOST:"+newPost.postId);
+            dispatch(addPosts(newPost));
+            alert('Post creado correctamente')
+        }{
+            alert("Error en la solicitud: ",  data.statusText);
+        }
+
+    }
+    catch(error){
+        console.log(error);
     }
 }
 
