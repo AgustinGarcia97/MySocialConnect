@@ -18,6 +18,10 @@ export const Comments = ({item}) => {
     const handleOpenModal = () => setIsModalVisible(true);
     const handleCloseModal = () => setIsModalVisible(false);
     const dispatch = useDispatch();
+
+
+
+
     const pressButton = (item) => {
         dispatch(setActualPost(item));
         dispatch(openCommentModal());

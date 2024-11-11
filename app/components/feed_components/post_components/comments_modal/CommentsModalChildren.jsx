@@ -1,15 +1,14 @@
-import {ScrollView, TouchableOpacity, View, Text} from "react-native";
+import {Text, TouchableOpacity, View} from "react-native";
 import {modal_comments} from "../../../../assets/styles/feed/feed_style";
 import Icon from "react-native-vector-icons/Ionicons";
-import {IconButton, TextInput, Avatar} from "react-native-paper";
-import {addComment, setActualPost, updateCommentLikes} from "../../../../redux/slices/postSlice";
+import {Avatar, IconButton, TextInput} from "react-native-paper";
+import {addComment, updateCommentLikes} from "../../../../redux/slices/postSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useRef, useState} from "react";
-import {fetch_post, fetchCreateComment, fetchLikeComment} from "../../../../api/fetch_post";
+import {useEffect, useState} from "react";
+import {dislike, fetch_comments, fetchCreateComment, fetchLikeComment} from "../../../../api/fetch_post";
 
 
 import {FlatList} from 'react-native-gesture-handler';
-import store from "../../../../redux/store";
 
 
 export const CommentsModalChildren = () => {
@@ -17,22 +16,67 @@ export const CommentsModalChildren = () => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.user);
     const userId = useSelector((state) => state.user.userId);
-    const comments = useSelector((state) => state.posts.actualPost.comments);
+    const postId = useSelector(state => state.posts.actualPost.postId);
+    const [comments, setComments] = useState(useSelector((state) => state.posts.actualPost.comments));
+    const actualPost = useSelector((state) => state.posts.actualPost);
+    const token = useSelector(state => state.user.token);
+    const [flag,setFlag] = useState(null);
     let post = useSelector((store) => {
         return store.posts.actualPost
     });
 
+    const [likesStatus, setLikesStatus] = useState({});
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const updatedComments = await fetch_comments(dispatch, postId, userData.token);
+            setComments((prevComments) => {
+                const allComments = [...actualPost.comments, ...updatedComments];
+                return allComments.filter(
+                    (comment, index, self) =>
+                        index === self.findIndex((c) => c.commentId === comment.commentId)
+                );
+            });
+
+            // Inicializa likesStatus con todos los comentarios
+            const initialLikesStatus = {};
+            updatedComments.forEach(comment => {
+                initialLikesStatus[comment.commentId] = !!hasUserLiked(comment, userId);
+            });
+            setLikesStatus(initialLikesStatus);
+        };
+        fetchComments();
+    }, [postId]);
 
 
-
+    const hasUserLiked = (comment, userId) => {
+        const like = comment.likes.find(like => like.user.userId === userId);
+        return like ? like.likeId : null;
+    };
 
 
     const handleLikeComment = async (commentId) => {
         const userId = userData.userId;
+
         const likeData = { commentId, userId };
-        const data = await fetchLikeComment(likeData);
-        if (data) {
-            dispatch(updateCommentLikes(data));
+
+
+        const comment = comments.find(c => c.commentId === commentId);  // Encuentra el comentario con el commentId dado
+
+        if (comment) {
+            const likeId = hasUserLiked(comment, userId);
+            if(likeId){
+                const data = dislike(likeId,comment.commentId)
+                dispatch(updateCommentLikes(data));
+                setLikesStatus(prev => ({ ...prev, [commentId]: false }));
+            }
+            else{
+                const data = await fetchLikeComment(likeData);
+                dispatch(updateCommentLikes(data));
+                setLikesStatus(prev => ({ ...prev, [commentId]: true }));
+
+            }
+
         }
     };
 
@@ -44,20 +88,29 @@ export const CommentsModalChildren = () => {
                 createdAt: new Date().toISOString(),
                 postId: post.postId
             };
-
-            // Realiza la solicitud para crear el comentario
             const comment = await fetchCreateComment(dispatch, newComment);
+            console.log("new comment:",comment)
+            if (comment) {
+                setComments((prevComments) => {
+                    const isDuplicate = prevComments.some((existingComment) => existingComment.commentId === comment.commentId);
+                    if (!isDuplicate) {
+                        dispatch(addComment(comment));
+                        return [...prevComments, comment];
+                    }
+                    return prevComments;
+                });
 
-            // Actualiza Redux con el nuevo comentario
-            dispatch(addComment(comment));
-
-            // Limpia el campo de texto
-            setText("");
+                setText("");
+            }
         }
     };
 
 
     const renderItem =  ({ item }) => {
+
+        console.log("ITEM: ",JSON.stringify(item));
+        const isLiked = likesStatus[item.commentId] !== undefined ? likesStatus[item.commentId] : false;
+        console.log("LIKED:",isLiked)
         if (!item || !item.commentId) {
             return <Text>No comment data available</Text>;
         }
@@ -78,11 +131,12 @@ export const CommentsModalChildren = () => {
             </View>
             <View style={{ ...modal_comments.comment_add_comment, flexDirection: 'row', alignItems: 'start', justifyContent: 'space-between' }}>
                 <Text>{item.comment}</Text>
+
                 <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => handleLikeComment(item.commentId)}>
-                        <Icon name="heart" size={20} color={item.likes && item.likes.includes(userId) ? "red" : "gray"} />
+                        <Icon name="heart" size={20}  color={likesStatus[item.commentId] ? "red" : "gray"} />
                     </TouchableOpacity>
-                    <Text>{item.likes ? item.likes.length : 0} likes</Text>
+                    <Text>{item.likes ? item.likes.length + (isLiked ? 1 : 0) : 0} likes</Text>
                 </View>
             </View>
             <View style={modal_comments.comment_release_time}>

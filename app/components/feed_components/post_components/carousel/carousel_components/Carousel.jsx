@@ -4,13 +4,14 @@ import * as React from "react";
 import Slide from "../data";
 import {SlideItem} from "./SlideItem";
 
-export const Carousel = () => {
+export const Carousel = ({item}) => {
+    console.log("ITEMS", item.photoList);
     return(
         <View style={{...styles.container}}>
             <FlatList
-                data={Slide}
+                data={item.photoList}
                 renderItem={({item}) => (
-                    <SlideItem item={item}/>
+                    <SlideItem item={item?item:{imageUrl:""}}/>
                 )}
                 horizontal
                 showsHorizontalScrollIndicator

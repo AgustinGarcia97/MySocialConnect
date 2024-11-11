@@ -1,14 +1,15 @@
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View,RefreshControl } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GeneralPost } from "../components/feed_components/tabs/GeneralPost";
 import { FollowedPost } from "../components/feed_components/tabs/FollowedPost";
 import { fetch_posts } from "../api/fetch_post";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getToken } from "../api/token/manage_token";
 import { useIsFocused } from "@react-navigation/native";
 import {fetchPostsSuccess} from "../redux/slices/postSlice";
+import {SearchbarModal} from "../components/searchbar/SearchbarModal";
 
 const renderTabBar = (props) => {
     return (
@@ -30,12 +31,31 @@ export const Feed = () => {
     const dispatch = useDispatch();
     const isFocused = useIsFocused();
     const token = useSelector(state => state.user.token);
-    const [posts, setPots] = useState([]);
+
+    const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+
+
+
+
+
 
     fetch_posts(dispatch);
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }, []);
+
+
     return (
-        token ? (
+        <>
+            {token ? (
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={SceneMap({
@@ -45,11 +65,18 @@ export const Feed = () => {
                 onIndexChange={setIndex}
                 initialLayout={{ width: Dimensions.get('window').width }}
                 renderTabBar={renderTabBar}
+
             />
         ) : (
             <GeneralPost />
-        )
-    );
+
+        )}
+            <SearchbarModal/>
+        </>
+    )
+
+
+        ;
 };
 
 const styles = StyleSheet.create({

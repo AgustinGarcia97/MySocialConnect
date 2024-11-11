@@ -6,14 +6,14 @@ import {openTaggedPeopleModal} from "../../../../../redux/slices/modalSlice";
 export const SlideItem = ({item}) => {
     const {width} = useWindowDimensions();
     const dispatch = useDispatch();
-
+    console.log("ITEM:",item)
     const handleTaggedPeople = () => {
         dispatch(openTaggedPeopleModal());
     }
     return(
 
             <View style = {{...styles.container,width}}>
-                <Image style={{...styles.image}}   source={{uri: item.img}}/>
+                <Image style={{...styles.image}}   source={{uri: item.photoUrl}}/>
                 <TouchableOpacity onPress={()=>{handleTaggedPeople()}}>
                     <Icon name={"user-circle-o"} style={{
                         position: 'absolute',

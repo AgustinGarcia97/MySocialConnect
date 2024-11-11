@@ -2,7 +2,7 @@ import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import { Feed } from "../views/Feed";
 import { Profile } from "../views/Profile";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { CustomHeaderButton } from "./navigation_components/CustomHeaderButton";
+import {CustomHeaderButton, Search, Searchbar} from "./navigation_components/CustomHeaderButton";
 import { Register } from "../views/Register";
 import { Login } from "../views/Login";
 import { CreateAccount } from "../components/register_components/CreateAccount";
@@ -16,6 +16,9 @@ import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import {clearData} from "../redux/slices/userSlice";
+import {SearchedProfile} from "../views/SearchedProfile";
+import {SetProfilePicBio} from "../components/register_components/registration_steps/SetProfilePicBio";
+
 
 
 const Drawer = createDrawerNavigator();
@@ -88,9 +91,10 @@ export const Navigation = () => {
             screenOptions={({ navigation }) => ({
                 headerRight: () => <CustomHeaderButton navigation={navigation} />,
                 drawerPosition: 'right',
-                headerLeft: () => null,
+                headerLeft: () =>    <Search/>,
                 headerStyle: {
                     backgroundColor: '#475a7e',
+                    height:75,
                 },
                 drawerStyle: {
                     backgroundColor: 'rgba(71,90,126,0.27)',
@@ -111,7 +115,8 @@ export const Navigation = () => {
         >
             <Drawer.Screen name="Feed" component={Feed} options={{ headerTitle: '', color: '#fff' }} />
             <Drawer.Screen name="Profile" component={Profile} options={{ headerTitle: '' }} />
-
+            <Drawer.Screen name="SearchedProfile" component={SearchedProfile} options={{ headerTitle: '' }} />
+            <Drawer.Screen name="ProfilePicBio" component={SetProfilePicBio} options={{headerTitle:''}}/>
                 <Drawer.Screen
                     name="Logout"
                     component={Feed}

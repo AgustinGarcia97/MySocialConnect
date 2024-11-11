@@ -27,7 +27,6 @@ export const postsSlice = createSlice({
             state.loading = true;
         },
         fetchPostsSuccess:(state, action) => {
-            console.log(action.payload);
             state.loading = false;
             state.posts = [
                 ...state.posts,
@@ -44,32 +43,44 @@ export const postsSlice = createSlice({
         setActualPost: (state, action) =>{
 
             state.actualPost = action.payload;
-            console.log("setActualPost", state.actualPost);
             state.comment_actualPost = action.payload.comments;
 
         },
         addComment: (state, action) => {
+            const newComment = action.payload;
+
 
                 state.actualPost = {
-                ...state.actualPost,
-                comments: [...state.actualPost.comments, action.payload]
-            }
-            console.log("ADD COMMENT:",state.actualPost.comments);
-            },
-        updateCommentLikes: (state, action) => {
-            const {commentId, userId} = action.payload;
+                    ...state.actualPost,
+                    comments: [...state.actualPost.comments, newComment]
+                };
+                console.log("ADD COMMENT:", state.actualPost.comments);
 
+
+        },
+        updateCommentLikes: (state, action) => {
+            const {commentId, userId,likeId} = action.payload;
 
             const comment = state.actualPost.comments.find(c => c.commentId === commentId);
             if (comment) {
 
-                if (comment.likes.includes(userId)) {
-                    comment.likes = comment.likes.filter(id => id !== userId);
+                const userLiked = comment.likes.some(like => like.user.userId === userId);
+                console.log( "COMMENT:::::",comment);
+                if (userLiked) {
+                    comment.likes = comment.likes.filter(like => like.user.userId !== userId);
+                    return true;
                 } else {
-
-                    comment.likes.push(userId);
+                    comment.likes = [
+                        ...comment.likes,  // Mantener los likes existentes
+                        { likeId, userId, commentId } // Agregar el nuevo like
+                    ];
+                    return false;
                 }
             }
+            else{
+                alert(3);
+            }
+            console.log(state.actualPost.comments.likes);
         },
         createPost: (state, action) => {
             state.title = action.payload.title;
@@ -79,15 +90,15 @@ export const postsSlice = createSlice({
 
         },
         addDescription: (state, action) => {
-            state.description += action.payload.description;
+            state.description = action.payload;
         },
         addTitle:  (state, action) =>{
-            state.title += action.payload.title;
+            state.title += action.payload;
         },
 
         addPhotos: (state, action) => {
-            alert(action.payload);
-            state.images = [...state.images, action.payload];
+            state.photos = [...state.photos, action.payload];
+            alert(1);
         },
         addLocation: (state, action) => {
             state.location = action.payload.location;
@@ -96,6 +107,16 @@ export const postsSlice = createSlice({
         addPosts: (state, action) => {
             state.posts = [...state.posts,action.payload.post];
 
+        },
+        fetchStartComment:(state,action) => {
+            state.loading = true;
+        },
+        fetchCommentsSuccess:(state, action) => {
+            state.comment_actualPost = action.payload.comments;
+        },
+        fetchStartCommentFailure:(state, action) => {
+            state.loading = true;
+            state.error = true;
         }
 
 
@@ -115,5 +136,8 @@ export const {
     addPhotos,
     addDescription,
     addLocation,
-    addPosts
+    addPosts,
+    fetchStartComment,
+    fetchCommentsSuccess,
+    fetchStartCommentFailure
 } = postsSlice.actions;

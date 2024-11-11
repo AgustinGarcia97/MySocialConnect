@@ -1,6 +1,6 @@
 import {View,StyleSheet} from "react-native";
 import {TextInput} from "react-native-paper";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {addDescription, addTitle} from "../../../../redux/slices/postSlice";
 
@@ -9,9 +9,11 @@ export const TextComponent = () => {
     const dispatch = useDispatch();
 
     const handleTextChange = (inputText) => {
-        dispatch(addDescription(inputText))
-        setText(inputText)
+        setText(inputText);
+        dispatch(addDescription(inputText));
     }
+
+
 
     return(
         <View style={styles.container}>

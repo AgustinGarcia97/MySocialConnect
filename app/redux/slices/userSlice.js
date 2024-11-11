@@ -14,6 +14,7 @@ const initialState = {
     profilePic: {},
     loading:false,
     error:false,
+    searched: {},
 }
 
 export const userSlice = createSlice({
@@ -34,7 +35,7 @@ export const userSlice = createSlice({
             state.token = action.payload.access_token;
             state.followed = action.payload.followed;
             state.following = action.payload.following;
-            state.profilePic = action.payload.profilePic;
+            state.profilePic = action.payload.profilePicture;
             state.userId = action.payload.userId;
 
         },
@@ -55,6 +56,9 @@ export const userSlice = createSlice({
             state.profilePic = "";
             state.token = null;
 
+        },
+        setSearched(state, action) {
+            state.searched = action.payload;
         }
     }
 })
@@ -64,4 +68,5 @@ export const {
     fetchUserData,
     fetchUserError,
     clearData,
+    setSearched
 } = userSlice.actions;

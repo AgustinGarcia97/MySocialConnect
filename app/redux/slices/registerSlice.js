@@ -3,10 +3,12 @@ import {modalSlice} from "./modalSlice";
 
 const initialState = {
     name:"",
+    lastname:"",
+    username:"",
     email:"",
-    phone_number:"",
     password:"",
-    birthdate:"",
+    profilePicture:"",
+    bio:"",
 }
 
 export const registerSlice = createSlice({
@@ -14,20 +16,25 @@ export const registerSlice = createSlice({
     initialState,
     reducers:{
         setNameSlice: (state, action) => {
-            state.name = action.payload.name;
-
+            state.name = action.payload;
+        },
+        setLastNameSlice: (state, action) => {
+            state.lastname = action.payload;
         },
         setEmailSlice: (state, action) => {
-            state.email = action.payload.email;
+            state.email = action.payload;
         },
-        setPhoneNumberSlice: (state, action) => {
-            state.phone_number = action.payload.phone_number;
+        setUsernameSlice: (state, action) => {
+            state.username = action.payload;
+        },
+        setProfilePicSlice: (state, action) => {
+            state.profilePicture = action.payload;
         },
         setPasswordSlice: (state, action) => {
-            state.password = action.payload.password;
+            state.password = action.payload;
         },
-        setBirthdateSlice: (state, action) => {
-            state.birthdate = action.payload.birthdate;
+        setBioSlice: (state, action) => {
+            state.bio = action.payload;
         },
         deleteDataSlice:(state, action) => {
             state.name = "";
@@ -42,9 +49,11 @@ export const registerSlice = createSlice({
 export const {
     setNameSlice,
     setEmailSlice,
-    setPhoneNumberSlice,
+    setProfilePicSlice,
     setPasswordSlice,
-    setBirthdateSlice,
+    setLastNameSlice,
+    setBioSlice,
     deleteDataSlice,
+    setUsernameSlice
 } = registerSlice.actions;
 

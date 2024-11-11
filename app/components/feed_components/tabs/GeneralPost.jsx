@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { feedStyles } from "../../../assets/styles/feed/feed_style";
-import { FlatList, View, Text } from "react-native";
+import {FlatList, View, Text, ActivityIndicator} from "react-native";
 import { InputPost } from "../post_components/InputPost";
 import { Post } from "../../../views/Post";
 import { BottomSheetContent } from "../post_components/comments_modal/CommentsModal";
@@ -16,14 +16,35 @@ import {fetch_posts} from "../../../api/fetch_post";
 export const GeneralPost = () => {
     const dispatch = useDispatch();
     const open = useSelector((state) => state.modal.open);
-    const posts = useSelector((store) => {return store.posts.posts});
+    const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(()=>{
-        const getPost = async () => {
-            await fetch_posts();
+    const fetchData = async () => {
+        setLoading(true);
+        const newPost = await fetch_posts(dispatch,page,5);
+
+        const uniquePosts = newPost.filter(
+            (newPost) => !posts.some((post) => post.postId === newPost.postId)
+        );
+
+        setTimeout(() => {
+            setPosts(prevPosts => [...prevPosts, ...uniquePosts]);
+            setLoading(false);
+        },1000)
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+
+    const loadMore = () => {
+        if (!loading) {
+            setPage(prevPage => prevPage + 1);
         }
-            getPost();
-    },[posts])
+    };
 
 
 
@@ -35,6 +56,10 @@ export const GeneralPost = () => {
                 renderItem={({ item }) => item?.postId ? <Post item={item} /> : null}
                 showsVerticalScrollIndicator={false}
                 ItemSeparatorComponent={<View style={{ height: 10 }} />}
+                onEndReached={loadMore}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+
             />
         ) : (
             <Text>No posts available</Text>

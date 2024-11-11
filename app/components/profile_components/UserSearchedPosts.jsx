@@ -17,9 +17,9 @@ const renderItem = ({ item }) => (
 
 
 
-export const UserPostsComponent = () => {
+export const UserSearchedPosts = () => {
     const searched = useSelector((state) => state.user.searched);
-    const [postSelected, setPostSelected] = useState(useSelector(state => state.user.posts));
+    const [postSelected, setPostSelected] = useState(searched?searched.posts:[]);
     console.log("POST DEL USER:",JSON.stringify(postSelected));
 
     return(

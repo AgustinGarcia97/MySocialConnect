@@ -3,28 +3,31 @@ import {TextInput,Text} from "react-native-paper";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    setBioSlice,
     setBirthdateSlice,
-    setEmailSlice,
+    setEmailSlice, setLastNameSlice,
     setNameSlice,
     setPasswordSlice,
-    setPhoneNumberSlice
+    setPhoneNumberSlice, setUsernameSlice
 } from "../../redux/slices/registerSlice";
 import {createAccountStyle, register_style} from "../../assets/styles/register/register_style";
 
 
 const input_list = [
+
     {
         label:'Nombre',
     },
     {
-        label:'Numero de movil',
+        label:'Apellido',
     },
     {
         label:'Email',
     },
     {
-        label:'Fecha de nacimiento',
-    }
+        label:'Username',
+    },
+
 ]
 
 
@@ -33,8 +36,8 @@ export const CreateAccount = ({navigation}) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [phone, setPhone] = useState("");
-    const [birthdate, setBirthdate] = useState("");
+    const [username, setUsername] = useState("");
+    const [lastname, setLastname] = useState("");
     const dispatch = useDispatch();
 
     const handleTextChange = (e, label) => {
@@ -42,18 +45,19 @@ export const CreateAccount = ({navigation}) => {
         switch (label){
             case 'Nombre':
                 setName(e);
+                dispatch(setNameSlice(e));
+                break;
+            case 'Apellido':
+                setLastname(e);
+                dispatch(setLastNameSlice(e));
                 break;
             case 'Email':
                 setEmail(e);
+                dispatch(setEmailSlice(e));
                 break;
-            case 'Password':
-                setPassword(e);
-                break;
-            case 'Numero de movil':
-                setPhone(e);
-                break;
-            case 'Fecha de nacimiento':
-                setBirthdate(e);
+            case 'Username':
+                setUsername(e);
+                dispatch(setUsernameSlice(e));
                 break;
             default:
                 alert(label);
@@ -81,8 +85,8 @@ export const CreateAccount = ({navigation}) => {
                                     item.label === 'Nombre' ? name :
                                         item.label === 'Email' ? email :
                                             item.label === 'Password' ? password :
-                                                item.label === 'Numero de movil' ? phone :
-                                                    item.label === 'Fecha de nacimiento' ? birthdate :
+                                                item.label === 'Username' ? username :
+                                                    item.label === 'Apellido' ? lastname :
                                                         ""
                                 }
                                 onChangeText={(value) => handleTextChange(value, item.label)}
@@ -92,7 +96,7 @@ export const CreateAccount = ({navigation}) => {
                 }
             </View>
             <View style={{...createAccountStyle.next_button_container}}>
-                <TouchableOpacity onPress={() => navigation.navigate('CreatePassword')}>
+                <TouchableOpacity onPress={() => navigation.navigate('ProfilePicBio')}>
                     <View style={{...createAccountStyle.next_button,backgroundColor:'#475a7e'}}>
                         <Text style={{...createAccountStyle.text_button,fontSize:20}}>Siguiente</Text>
                     </View>

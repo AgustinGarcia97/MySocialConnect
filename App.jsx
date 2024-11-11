@@ -7,6 +7,9 @@ import {Navbar} from "./app/components/Navbar";
 import {Provider} from "react-redux";
 import store from "./app/redux/store";
 import {NavigationContainer} from "@react-navigation/native";
+import {useNavigationContainerRef} from "@react-navigation/core";
+
+
 
 
 
@@ -16,6 +19,7 @@ function App() {
 
 
   return (
+
       <Provider store={store}>
          <PaperProvider>
              <GestureHandlerRootView style={{ flex: 1 }}>

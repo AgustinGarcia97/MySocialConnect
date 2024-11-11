@@ -3,12 +3,30 @@ import { TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/Fontisto';
 import { IconButton, Text } from 'react-native-paper';
 import { post_style } from "../../../assets/styles/feed/feed_style";
+import {useSelector} from "react-redux";
+import {dislike, dislike_post, fetchLikeComment} from "../../../api/fetch_post";
 
-export const Likes = () => {
-    const [isPressed, setIsPressed] = useState(false);
+export const Likes = ({item, isPressed, setIsPressed,countLikes,setCountLikes}) => {
 
-    const pressButton = () => {
+    const userId = useSelector((state) => state.user.userId);
+    const token = useSelector((state) => state.user.token);
+
+    const pressButton = async () => {
         setIsPressed(!isPressed);
+        const postId = item.postId;
+
+        const data ={userId,postId}
+        if(isPressed){
+            setCountLikes(countLikes-1);
+            await  dislike_post(postId,userId);
+
+        }else{
+            setCountLikes(countLikes+1);
+            await fetchLikeComment(data);
+
+
+        }
+
     };
 
     return (

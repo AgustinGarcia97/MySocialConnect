@@ -7,11 +7,12 @@ import {Comments} from "../components/feed_components/post_components/Comments";
 import {Likes} from "../components/feed_components/post_components/Likes";
 import {useEffect, useState} from "react";
 import {closeCommentModal, openCommentModal} from "../redux/slices/modalSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Carousel} from "../components/feed_components/post_components/carousel/carousel_components/Carousel";
 import {BlurView} from "@react-native-community/blur";
 import {setActualPost} from "../redux/slices/postSlice";
+import {fetchLikeComment} from "../api/fetch_post";
 
 
 
@@ -33,14 +34,21 @@ export const Post = ({item}) => {
     const maxLength = 100;
     const dispatch = useDispatch();
     const [showFullText, setShowFullText] = useState(false);
-
-
-    const handlePressButton = () => {
-        alert(item.postId)
-        dispatch(setActualPost(item));
+    const userId = useSelector((state) => state.user.userId);
+    const [isPressed, setIsPressed] = useState(false);
+    const [countLikes,setCountLikes] = useState(item.likes?item.likes.length:0);
+    const handlePressButton = async (item) => {
         dispatch(openCommentModal());
+
     }
 
+    useEffect( () => {
+        if(isPressed){
+            setCountLikes(countLikes+1)
+        } else{
+            setCountLikes(countLikes-1)
+        }
+    },[isPressed])
 
 
     const toggleText = () => {
@@ -70,16 +78,16 @@ export const Post = ({item}) => {
 
             <View style={{height:25,backgroundColor:'rgba(0,0,0,0.6)',width:450,padding:2,flexDirection:'row',gap:10}}>
                 <Icon name="location-sharp" size={20} color="#475A7E" />
-                <Text style={{color:'#fff'}}>Ubicacion</Text>
+                <Text style={{color:'#fff'}}>{item.location}</Text>
             </View>
 
             <View style={{...style.carousel_container}}>
-                <Carousel/>
+                <Carousel item={item}/>
             </View>
             <View style={{width:'100%',flexDirection:'row',flexWrap:'wrap',marginHorizontal:10,marginVertical:10}}>
-                <Likes item={item}></Likes>
+                <Likes item={item} isPressed={isPressed} setIsPressed={setIsPressed} countLikes={countLikes} setCountLikes={setCountLikes}></Likes>
                 <Comments item={item}></Comments>
-                <Text style={{width:'100%', marginLeft:8, marginVertical:5}}>{item.likes ? item.likes.length : 0} Me gusta</Text>
+                <Text style={{width:'100%', marginLeft:8, marginVertical:5}}>{countLikes} Me gusta</Text>
             </View>
             <View style={{
                 width:'93%',

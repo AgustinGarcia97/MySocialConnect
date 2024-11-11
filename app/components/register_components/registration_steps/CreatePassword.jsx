@@ -1,10 +1,12 @@
-import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Image, TouchableOpacity, View} from "react-native";
 
 import {Text, TextInput} from "react-native-paper";
 import {createAccountStyle, register_style} from "../../../assets/styles/register/register_style";
 import {fetch_login} from "../../../api/fetch_user_data";
+import {setPasswordSlice} from "../../../redux/slices/registerSlice";
+import {fetch_register} from "../../../api/token/fetch_auth";
 
 
 const input_list = [
@@ -21,8 +23,25 @@ export const CreatePassword = ({navigation}) => {
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    const name = useSelector((state) => state.register.name);
+    const lastname = useSelector((state) => state.register.lastname);
+    const username = useSelector((state) => state.register.username);
+    const email = useSelector((state) => state.register.email);
+    const profilePicture = useSelector((state) => state.register.profilePicture);
+    const bio = useSelector((state) => state.register.bio);
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        console.log("Name:", name);
+        console.log("Lastname:", lastname);
+        console.log("Username:", username);
+        console.log("Email:", email);
+        console.log("Password:", password);
+        console.log("Profile Picture URL:", profilePicture);
+        console.log("Bio:", bio);
+    }, [name, lastname, username, email, password, profilePicture, bio]);
+
 
     const handleTextChange = (e, label) => {
 
@@ -39,9 +58,28 @@ export const CreatePassword = ({navigation}) => {
     }
 
     const handleRegister = () => {
-        const fetch = () => fetch_login;
-        alert(fetch);
+        if (password === confirmPassword){
+            dispatch(setPasswordSlice(password));
+            const data = {
+                name,
+                lastname,
+                email,
+                password,
+                profilePicture,
+                username,
+                role:"USER",
 
+            }
+            const flag = fetch_register(data,dispatch)
+            if(flag){
+                alert("Ya sos parte de Social Connect! Inicia sesión")
+                navigation.navigate("Login");
+            } else{
+                alert("Hubo un error a la hora de crear tu cuenta, volve a intentar.")
+            }
+        } else {
+            alert("Las contraseñas deben coincidir")
+        }
 
     }
     return(
@@ -88,7 +126,7 @@ export const CreatePassword = ({navigation}) => {
 
                 </View>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Feed')}>
+                <TouchableOpacity onPress={() => handleRegister(navigation.navigate)}>
                     <View style={{...createAccountStyle.next_button,backgroundColor:'#475a7e'}}>
                         <Text style={{...createAccountStyle.text_button,fontSize:20}}>Registrarse</Text>
                     </View>
