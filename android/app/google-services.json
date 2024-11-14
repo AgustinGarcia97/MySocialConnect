@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550472895069",
+    "project_id": "image-cloud-f2cc1",
+    "storage_bucket": "image-cloud-f2cc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550472895069:android:91b5855165388754965bb4",
+        "android_client_info": {
+          "package_name": "com.mysocialconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZroyMVAt_2VDvXs0scizE6gbtpo_wKhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

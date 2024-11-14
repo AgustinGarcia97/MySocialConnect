@@ -20,7 +20,7 @@ const renderItem = ({ item }) => (
 export const UserPostsComponent = () => {
     const searched = useSelector((state) => state.user.searched);
     const [postSelected, setPostSelected] = useState(useSelector(state => state.user.posts));
-    console.log("POST DEL USER:",JSON.stringify(postSelected));
+
 
     return(
         <SafeAreaView style={{...profile_style.user_profile_post_container,aspectRatio:0.80}}>

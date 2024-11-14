@@ -91,7 +91,7 @@ const ProfileImagePicker = () => {
                 const selectedImageUri = result.assets[0].uri;
                 setImageUri(selectedImageUri);
 
-                // Upload the image to Firebase Storage
+
                 await uploadImage(selectedImageUri);
             }
         } catch (error) {

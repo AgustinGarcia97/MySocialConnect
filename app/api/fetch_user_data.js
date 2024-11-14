@@ -14,7 +14,7 @@ export const fetch_login = async (dispatch, auth) => {
             })
         }
         dispatch(loadingUserFetch());
-        const response = await fetch("http://10.0.2.2:8080/api/v1/auth/authenticate", options);
+        const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/auth/authenticate", options);
         if(response.ok){
             const data = await response.json();
             console.log("LOGIN:",data);
@@ -47,7 +47,7 @@ export const fetch_add_follow_followers = async (dispatch, data,token) => {
         }
     }
 
-    const response = await fetch(`http://10.0.2.2:8080/api/v1/follow/${data.followerId}/follow/${data.followedId}`, options);
+    const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/follow/${data.followerId}/follow/${data.followedId}`, options);
     if(response.ok){
         return await response.json();
 
@@ -68,7 +68,7 @@ export const unfollow = async (dispatch, followerId,followedId) => {
         }
     }
 
-    const response = await fetch(`http://10.0.2.2:8080/api/v1/follow/${data.followerId}/unfollow/${data.followedId}`, options);
+    const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/follow/${data.followerId}/unfollow/${data.followedId}`, options);
     if(response.ok){
         return await response.json();
 
@@ -88,7 +88,7 @@ export const fetch_following_posts = async (dispatch,userId,page,size) => {
         }
     }
     try{
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/follows?userId=${userId}&page=${page}&size=${10}`,options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/follows?userId=${userId}&page=${page}&size=${10}`,options);
         if(response.ok){
             return await response.json();
         } else{
@@ -114,7 +114,7 @@ export const fetch_update_user = async(data,userId) => {
             body: JSON.stringify(data)
 
         }
-        const response = await fetch(`http://10.0.2.2:8080/users/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com//users/${userId}`, options);
         if(response.ok){
             alert("Usuario actualizado correctamente")
         }

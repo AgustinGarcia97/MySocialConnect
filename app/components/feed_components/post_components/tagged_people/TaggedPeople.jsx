@@ -20,7 +20,6 @@ export const TaggedPeople = () => {
 
     useEffect(() => {
         setTagged(tags);
-        console.log("Updated tagged post:", post);
     }, [post]);
 
     useEffect(() => {

@@ -16,7 +16,7 @@ export const fetch_posts =  async (dispatch,pageNumber,pageSize) => {
         }
 
         dispatch(fetchPostStart());
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/fetch?page=${pageNumber}&size=${3}`,options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/fetch?page=${pageNumber}&size=${3}`,options);
         if(response.ok){
             const data = await response.json();
             dispatch(fetchPostsSuccess(data));
@@ -47,7 +47,7 @@ export const fetch_post = async (postId,dispatch) => {
             },
         }
         dispatch(fetchPostStart());
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/${postId}`,options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/${postId}`,options);
 
         if(response.ok){
             const data = await response.json();
@@ -82,7 +82,7 @@ export const fetch_comments = async (dispatch,postId,) => {
         }
         dispatch(fetchStartComment());
 
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/comments/post/${postId}`,options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/comments/post/${postId}`,options);
         if(response.ok){
             return await response.json();
         }
@@ -113,7 +113,7 @@ export const fetchCreateComment = async (dispatch,data) => {
         };
 
 
-        const response = await fetch("http://10.0.2.2:8080/api/v1/comments/create", options);
+        const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/comments/create", options);
 
         if (response.ok) {
             const data = await response.json();
@@ -145,7 +145,7 @@ export const fetchCreatePost =  async (data,dispatch) => {
             body: JSON.stringify(data),
         }
 
-        const response = await fetch("http://10.0.2.2:8080/api/v1/posts/create", options);
+        const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/create", options);
         if (response.ok) {
             const data = await response.json();
             const newPost = {
@@ -186,7 +186,7 @@ export const fetchLikeComment = async (request) => {
             body: JSON.stringify(request),
         };
 
-        const response = await fetch("http://10.0.2.2:8080/like/create", options);
+        const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/create", options);
         if (response.ok) {
             const data = await response.json();
             console.log("Like creado:", data);
@@ -215,7 +215,7 @@ export const dislike = async (likeId,commentId,dispatch) => {
             }
         }
 
-        const response = await fetch(`http://10.0.2.2:8080/like/${likeId}/${commentId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/${likeId}/${commentId}`, options);
         if(response.ok()){
             return await response.json();
         }
@@ -242,7 +242,7 @@ export const dislike_post = async (postId,userId,dispatch) => {
                 postId: postId,
             },
         }
-        const response = await fetch(`http://10.0.2.2:8080/like/${postId}/user/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/${postId}/user/${userId}`, options);
         if (response.ok()){
             return await response.json();
         }
@@ -268,7 +268,7 @@ export async function searchUsers(searchUser) {
         }),
     }
 
-    const response = await fetch("http://10.0.2.2:8080/users/user",options );
+    const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/users/user",options );
 
     if (!response.ok) {
         throw new Error("Error en la búsqueda de usuarios"+ response.error);
@@ -289,7 +289,7 @@ export const fetchDeletePost = async (postId,dispatch) => {
     }
 
     try{
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/${postId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/${postId}`, options);
         if(response.ok){
             alert("Post borrado exitosamente");
             dispatch(deletePost(postId))
@@ -316,7 +316,7 @@ export const fetch_taggedPost = async (userId) => {
                 "Authorization": "Bearer " +  token
             }
         }
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/tag/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/tag/${userId}`, options);
         if(response.ok){
             return await response.json();
         }
@@ -339,7 +339,7 @@ export const fetch_likedPost = async (userId) => {
                 "Authorization": "Bearer " +  token
             }
         }
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/like/${userId}`,options);
+        const response = await fetch(`http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/like/${userId}`,options);
         if(response.ok){
             return await response.json();
         }

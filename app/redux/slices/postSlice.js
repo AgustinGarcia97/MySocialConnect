@@ -63,7 +63,7 @@ export const postsSlice = createSlice({
                     ...state.actualPost,
                     comments: [...state.actualPost.comments, newComment]
                 };
-                console.log("ADD COMMENT:", state.actualPost.comments);
+
 
 
         },
@@ -74,7 +74,7 @@ export const postsSlice = createSlice({
             if (comment) {
 
                 const userLiked = comment.likes.some(like => like.user.userId === userId);
-                console.log( "COMMENT:",comment);
+
                 if (userLiked) {
                     comment.likes = comment.likes.filter(like => like.user.userId !== userId);
                     return true;
@@ -89,7 +89,7 @@ export const postsSlice = createSlice({
             else{
 
             }
-            console.log(state.actualPost.comments.likes);
+
         },
         createPost: (state, action) => {
             state.title = action.payload.title;
@@ -124,7 +124,7 @@ export const postsSlice = createSlice({
         },
         addPosts: (state, action) => {
             state.posts = [...state.posts, action.payload];
-            alert("Nuevo post agregado:"+state.posts.posts);
+
 
         },
         fetchStartComment:(state,action) => {
