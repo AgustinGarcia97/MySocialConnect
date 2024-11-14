@@ -87,7 +87,7 @@ export const CreatePassword = ({navigation}) => {
             <View style={{...createAccountStyle.logo_title_container}}>
                 <View style={{...register_style.register_logo_container}}>
                     <Image source={require('../../../assets/logos/logo.png')}
-                           style={{...register_style.logo,height:150,width:150}} resizeMode="cover"
+                           style={{...register_style.logo,height:150,width:150,marginTop:20,}} resizeMode="cover"
                     ></Image>
 
                 </View>

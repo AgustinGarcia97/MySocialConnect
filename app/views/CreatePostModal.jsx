@@ -1,7 +1,7 @@
 import {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 import {CommentsModalChildren} from "../components/feed_components/post_components/comments_modal/CommentsModalChildren";
 import React, {useCallback, useEffect, useMemo, useRef} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {closeCommentModal, closePostModal} from "../redux/slices/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SelectPhoto from "../components/feed_components/create_post_components/components/SelectPhoto";
@@ -10,9 +10,12 @@ import {TextComponent} from "../components/feed_components/create_post_component
 import {Options} from "../components/feed_components/create_post_components/components/Options";
 import {createPost} from "../redux/slices/postSlice";
 import {fetchCreatePost} from "../api/fetch_post";
+import {TaggedPeople} from "../components/feed_components/post_components/tagged_people/TaggedPeople";
+import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";
+import {TagPeople} from "../components/feed_components/create_post_components/tag_people/TagPeople";
 export const  CreatePostModal =  props => {
     const bottomSheetModalRef = useRef(null);
-    const snapPoints = useMemo(() => [ '75%','100%'], []);
+    const snapPoints = useMemo(() => [ '90%','100%'], []);
     const dispatch = useDispatch();
     const title = useSelector((store) => { return store.posts.title});
     const description = useSelector((store) => { return store.posts.description});
@@ -21,6 +24,7 @@ export const  CreatePostModal =  props => {
     const photos = useSelector((store) => { return store.posts.photos});
     const location = useSelector((store) => { return store.posts.location});
     const userId = useSelector((store) => { return store.user.userId});
+    const tagged = useSelector((store) => { return store.posts.taggedPeople;});
     const open = useSelector((state) => state.modal.openPostModal);
     const handleSheetChanges = useCallback((index) => {
         if (index === -1) {
@@ -46,9 +50,11 @@ export const  CreatePostModal =  props => {
             photos,
             location,
             userId,
+            tagged,
         }
 
         await fetchCreatePost(data,dispatch);
+        dispatch(closePostModal());
 
 
     }
@@ -62,6 +68,7 @@ export const  CreatePostModal =  props => {
                 onChange={handleSheetChanges}
                 backgroundStyle={{backgroundColor:'#475A7E'}}
             >
+
                 <View style={{backgroundColor:'#D9D7CE',width:'100%'}}>
                     <UserData/>
                     <TextComponent/>
@@ -73,6 +80,7 @@ export const  CreatePostModal =  props => {
                             alignItems:"center",
                             marginVertical:19,
                             width:'100%',
+
 
                         }}
                     >
@@ -93,9 +101,9 @@ export const  CreatePostModal =  props => {
                     </View>
                 </View>
 
-
-
-
+                <TagPeople/>
+                <TaggedPeople />
+                <AddLocationModal/>
             </BottomSheetModal>
         </BottomSheetModalProvider>
 

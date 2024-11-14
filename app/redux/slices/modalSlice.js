@@ -7,7 +7,8 @@ const initialState = {
     openTagPeopleModal:false,
     openLocationModal:false,
     openTaggedPeopleModal:false,
-    openSearchBarModal:false
+    openSearchBarModal:false,
+
 }
 
 export const modalSlice = createSlice({

@@ -10,6 +10,10 @@ import { getToken } from "../api/token/manage_token";
 import { useIsFocused } from "@react-navigation/native";
 import {fetchPostsSuccess} from "../redux/slices/postSlice";
 import {SearchbarModal} from "../components/searchbar/SearchbarModal";
+import {CreatePostModal} from "./CreatePostModal";
+import {TagPeople} from "../components/feed_components/create_post_components/tag_people/TagPeople";
+import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";
+import {TaggedPeople} from "../components/feed_components/post_components/tagged_people/TaggedPeople";
 
 const renderTabBar = (props) => {
     return (
@@ -45,12 +49,7 @@ export const Feed = () => {
 
     const [refreshing, setRefreshing] = React.useState(false);
 
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-    }, []);
+
 
 
     return (
@@ -72,6 +71,9 @@ export const Feed = () => {
 
         )}
             <SearchbarModal/>
+            <CreatePostModal />
+
+
         </>
     )
 

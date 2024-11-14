@@ -11,25 +11,30 @@ export const register_style = {
         alignItems:'center',
 
 
+
     },
     logo:{
-        marginTop:40,
-        width: 450,
-        height: 250,
+        marginTop:200,
+        width: 350,
+        height: 350,
+
     },
     register_text_container:{
         height: 280,
         width:'100%',
+
     },
     register_title_container:{
         height:'65%',
         width:'100%',
         justifyContent:'center',
         alignItems:'center',
+
     },
     register_title:{
-        fontSize:50,
-        width:'60%',
+        fontSize:48,
+
+        width:'90%',
         textAlign:'center',
         fontWeight:'600',
         textShadowColor: '#3f3e3e',

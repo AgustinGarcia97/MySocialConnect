@@ -1,28 +1,18 @@
 import {Image, useWindowDimensions, View, StyleSheet, TouchableOpacity} from "react-native";
 import * as React from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 import {useDispatch} from "react-redux";
 import {openTaggedPeopleModal} from "../../../../../redux/slices/modalSlice";
 export const SlideItem = ({item}) => {
     const {width} = useWindowDimensions();
     const dispatch = useDispatch();
-    console.log("ITEM:",item)
-    const handleTaggedPeople = () => {
-        dispatch(openTaggedPeopleModal());
-    }
+
+
     return(
 
             <View style = {{...styles.container,width}}>
                 <Image style={{...styles.image}}   source={{uri: item.photoUrl}}/>
-                <TouchableOpacity onPress={()=>{handleTaggedPeople()}}>
-                    <Icon name={"user-circle-o"} style={{
-                        position: 'absolute',
-                        fontSize:30,
-                        color: 'rgba(0, 0, 0, 0.7)',
-                        bottom: 10,
-                        right: 160,
-                    }}/>
-                </TouchableOpacity>
+
             </View>
 
     )

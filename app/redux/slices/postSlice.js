@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {useSelector} from "react-redux";
 import {stringify} from "uuid";
+import {removeTag} from "./createPostSlice";
 
 const initialState = {
     loading: false,
@@ -15,7 +16,8 @@ const initialState = {
     comments:[],
     location: "",
     userId:"",
-
+    taggedPeople:[],
+    newPost:{},
 
 }
 
@@ -35,6 +37,12 @@ export const postsSlice = createSlice({
                 )
             ];
 
+            state.title = "";
+            state.description = "";
+            state.photos = [];
+            state.location = "";
+            state.taggedPeople = [];
+
         },
         fetchPostFailure:(state, action) => {
             state.loading = false;
@@ -43,6 +51,7 @@ export const postsSlice = createSlice({
         setActualPost: (state, action) =>{
 
             state.actualPost = action.payload;
+
             state.comment_actualPost = action.payload.comments;
 
         },
@@ -65,26 +74,25 @@ export const postsSlice = createSlice({
             if (comment) {
 
                 const userLiked = comment.likes.some(like => like.user.userId === userId);
-                console.log( "COMMENT:::::",comment);
+                console.log( "COMMENT:",comment);
                 if (userLiked) {
                     comment.likes = comment.likes.filter(like => like.user.userId !== userId);
                     return true;
                 } else {
                     comment.likes = [
-                        ...comment.likes,  // Mantener los likes existentes
-                        { likeId, userId, commentId } // Agregar el nuevo like
+                        ...comment.likes,
+                        { likeId, userId, commentId }
                     ];
                     return false;
                 }
             }
             else{
-                alert(3);
+
             }
             console.log(state.actualPost.comments.likes);
         },
         createPost: (state, action) => {
             state.title = action.payload.title;
-
             state.location = action.payload.location;
             state.userId = action.payload.userId;
 
@@ -98,14 +106,25 @@ export const postsSlice = createSlice({
 
         addPhotos: (state, action) => {
             state.photos = [...state.photos, action.payload];
-            alert(1);
         },
         addLocation: (state, action) => {
             state.location = action.payload.location;
         },
 
+        addTag: (state, action) => {
+                const userId = action.payload;
+                if (state.taggedPeople.includes(userId)) {
+                    state.taggedPeople = state.taggedPeople.filter((tag) => tag !== userId);
+                } else {
+                    state.taggedPeople = [...state.taggedPeople, userId];
+                }
+        },
+        removeTag: (state, action) => {
+
+        },
         addPosts: (state, action) => {
-            state.posts = [...state.posts,action.payload.post];
+            state.posts = [...state.posts, action.payload];
+            alert("Nuevo post agregado:"+state.posts.posts);
 
         },
         fetchStartComment:(state,action) => {
@@ -117,7 +136,19 @@ export const postsSlice = createSlice({
         fetchStartCommentFailure:(state, action) => {
             state.loading = true;
             state.error = true;
+        },
+        clearDataNewPost:(state) => {
+
+        },
+        deletePost:(state,action) => {
+            state.posts = state.posts.filter(post => post.id !== action.payload);
+
+        },
+        deleteLocation:(state, action) => {
+            state.location = '';
         }
+
+
 
 
 
@@ -138,6 +169,9 @@ export const {
     addLocation,
     addPosts,
     fetchStartComment,
+    addTag,
     fetchCommentsSuccess,
-    fetchStartCommentFailure
+    fetchStartCommentFailure,
+    deleteLocation,
+    deletePost
 } = postsSlice.actions;

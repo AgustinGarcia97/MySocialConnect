@@ -14,10 +14,10 @@ export const UserData = () => {
     }
     return(
         <View style={userDataStyle.container}>
-            <View style={userDataStyle.img_container}>
+            <View style={{...userDataStyle.img_container, borderWidth: 4, borderColor:'rgb(185,180,180)', borderRadius: 50,}}>
                 <Avatar.Image
                     size={70}
-                    source={{uri:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}} />
+                    source={{uri: userData.profilePic !== null? userData.profilePic.photoUrl :  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}} />
             </View>
             <View style={userDataStyle.text_container}>
                 <Text style={userDataStyle.title}>{userData.name+' '+userData.lastname}</Text>
@@ -35,6 +35,7 @@ const userDataStyle = StyleSheet.create({
         flexDirection:'row',
         boxSizing: 'border-box',
         justifyContent:'center',
+        alignItems:'center',
         gap:0,
 
 

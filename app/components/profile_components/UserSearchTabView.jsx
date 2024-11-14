@@ -5,6 +5,8 @@ import { useState } from 'react';
 import {LikedPostsComponent} from "./LikedPostsComponent";
 import {UserPostsComponent} from "./UserPostsComponent";
 import {UserSearchedPosts} from "./UserSearchedPosts";
+import {SearchedTaggedView} from "./SearchedTaggedView";
+import {UserSearchedLikedPost} from "./UserSearchedLikedPost";
 
 
 const renderTabBar = (props) => {
@@ -27,6 +29,7 @@ export const ProfileSearchTabView = () => {
     const [routes] = useState([
         { key: 'first', title: 'Publicaciones' },
         { key: 'second', title: 'Me gusta' },
+        {key:'third', title: 'Etiquetado' },
     ]);
 
     return (
@@ -37,7 +40,8 @@ export const ProfileSearchTabView = () => {
                 navigationState={{ index, routes }}
                 renderScene={SceneMap({
                     first:  UserSearchedPosts,
-                    second: LikedPostsComponent,
+                    second: UserSearchedLikedPost,
+                    third: SearchedTaggedView,
                 })}
                 onIndexChange={setIndex}
                 initialLayout={{ width: Dimensions.get('window').width }}

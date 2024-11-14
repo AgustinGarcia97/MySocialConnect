@@ -21,11 +21,14 @@ export const BottomSheetContent = () => {
         }
     }, [dispatch]);
 
+
     useEffect(() => {
-        if (open) {
-            bottomSheetModalRef.current?.present();
-        } else {
-            bottomSheetModalRef.current?.dismiss();
+        if (bottomSheetModalRef.current) {
+            if (open) {
+                bottomSheetModalRef.current.present();
+            } else {
+                bottomSheetModalRef.current.dismiss();
+            }
         }
     }, [open]);
 

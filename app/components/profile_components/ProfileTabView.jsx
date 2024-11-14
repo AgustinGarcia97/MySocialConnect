@@ -4,6 +4,7 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { useState } from 'react';
 import {LikedPostsComponent} from "./LikedPostsComponent";
 import {UserPostsComponent} from "./UserPostsComponent";
+import {TaggedView} from "./TaggedView";
 
 
 const renderTabBar = (props) => {
@@ -26,6 +27,7 @@ export const ProfileTabView = ({flag}) => {
     const [routes] = useState([
         { key: 'first', title: 'Publicaciones' },
         { key: 'second', title: 'Me gusta' },
+        { key: 'third', title: 'Etiquetado' },
     ]);
 
     return (
@@ -37,6 +39,7 @@ export const ProfileTabView = ({flag}) => {
             renderScene={SceneMap({
                 first:  UserPostsComponent,
                 second: LikedPostsComponent,
+                third: TaggedView,
             })}
             onIndexChange={setIndex}
             initialLayout={{ width: Dimensions.get('window').width }}

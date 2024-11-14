@@ -5,7 +5,6 @@ import Slide from "../data";
 import {SlideItem} from "./SlideItem";
 
 export const Carousel = ({item}) => {
-    console.log("ITEMS", item.photoList);
     return(
         <View style={{...styles.container}}>
             <FlatList

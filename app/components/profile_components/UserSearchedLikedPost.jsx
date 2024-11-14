@@ -1,11 +1,9 @@
+import {FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
 import {profile_style} from "../../assets/styles/profile/profile_style";
-import {Dimensions, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
-import index from "../feed_components/post_components/carousel/data";
 import * as React from "react";
-import {useState} from "react";
 import {useSelector} from "react-redux";
-
-const { width } = Dimensions.get('window');
+import {useEffect, useState} from "react";
+import {fetch_likedPost} from "../../api/fetch_post";
 
 const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => alert('post')}>
@@ -16,21 +14,28 @@ const renderItem = ({ item }) => (
 )
 
 
+export const UserSearchedLikedPost = () => {
+    const user = useSelector((state) => state.user.searched);
+    const [posts,setPost] = useState([]);
 
-export const UserSearchedPosts = () => {
-    const searched = useSelector((state) => state.user.searched);
-    const [postSelected, setPostSelected] = useState(searched?searched.posts:[]);
-
+    useEffect( () => {
+        const fetchPosts = async () => {
+            const fetched = fetch_likedPost(user.userId);
+            setPost(fetched);
+        }
+        fetchPosts()
+    },[])
 
     return(
         <SafeAreaView style={{...profile_style.user_profile_post_container,aspectRatio:0.80}}>
             <FlatList
-                data={postSelected}
+                data={posts}
                 styles={{aspectRatio: 1}}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => index.toString()}
                 numColumns={2}
             />
         </SafeAreaView>
     )
+
 }

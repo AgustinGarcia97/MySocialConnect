@@ -30,17 +30,32 @@ export const Likes = ({item, isPressed, setIsPressed,countLikes,setCountLikes}) 
     };
 
     return (
-        <TouchableOpacity style={post_style.icon_container} onPress={pressButton}>
-            <Icon
-                name={isPressed ? "heart" : "heart-alt"}
-                size={22}
-                color={isPressed ? '#d73232' : '#d2d4d7'}
-                style={{ marginLeft: 2,color: isPressed ? 'red' : 'black' }}
-                rippleColor={isPressed ? 'red' : 'black'}
+        token? (
+            <TouchableOpacity style={post_style.icon_container} onPress={pressButton}>
+                <Icon
+                    name={isPressed ? "heart" : "heart-alt"}
+                    size={22}
+                    color={isPressed ? '#d73232' : '#d2d4d7'}
+                    style={{ marginLeft: 2,color: isPressed ? 'red' : 'black' }}
+                    rippleColor={isPressed ? 'red' : 'black'}
 
-            />
+                />
 
-        </TouchableOpacity>
+            </TouchableOpacity>
+            ): (
+            <TouchableOpacity style={post_style.icon_container} onPress={()=> alert("Debes iniciar sesion para dar like al post.")}>
+                <Icon
+                    name={isPressed ? "heart" : "heart-alt"}
+                    size={22}
+                    color={isPressed ? '#d73232' : '#d2d4d7'}
+                    style={{ marginLeft: 2,color: isPressed ? 'red' : 'black' }}
+                    rippleColor={isPressed ? 'red' : 'black'}
+
+                />
+
+            </TouchableOpacity>
+        )
+
     );
 };
 

@@ -35,11 +35,11 @@ export const Register = ({navigation}) => {
             <View style={{...register_style.register_text_container}}>
                 <View style={{...register_style.register_title_container}}>
                     <Text style={{...register_style.register_title}}>
-                        <Text style={{...register_style.shadow_subtitle,color:'#f5d03d'}}>My</Text> <Text style={{...register_style.shadow_subtitle,color:'#d007a4'}}>Social</Text> <Text style={{...register_style.shadow_subtitle,  color:'#0cdea6'}}>Connect</Text>
+                        <Text style={{...register_style.shadow_subtitle,color:'rgba(34,59,232,0.42)'}}>My</Text> <Text style={{...register_style.shadow_subtitle,color:'rgba(34,59,232,0.42)'}}>Social</Text> <Text style={{...register_style.shadow_subtitle,  color:'rgba(34,59,232,0.42)'}}>Connect</Text>
                     </Text>
                 </View>
                 <View style={{...register_style.register_subtitle_container}}>
-                    <Text style={{...register_style.register_subtitle}}>Unite a <Text style={{...register_style.shadow_subtitle,color:'#f5d03d'}}>My</Text> <Text style={{...register_style.shadow_subtitle,color:'#d007a4'}}>Social</Text> <Text style={{...register_style.shadow_subtitle,  color:'#0cdea6'}}>Connect</Text> hoy mismo.</Text>
+                    <Text style={{...register_style.register_subtitle}}>Unite a <Text style={{...register_style.shadow_subtitle,color:'#526ce7'}}>My</Text> <Text style={{...register_style.shadow_subtitle,color:'#526ce7'}}>Social</Text> <Text style={{...register_style.shadow_subtitle,  color:'#526ce7'}}>Connect</Text> hoy mismo.</Text>
                 </View>
             </View>
             <View style={{...register_style.register_options_container}}>

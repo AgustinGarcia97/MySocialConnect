@@ -4,6 +4,7 @@ import {Avatar} from "react-native-paper";
 import {Searchbar} from "react-native-paper";
 import {useDispatch, useSelector} from "react-redux";
 import {openSearchBarModal} from "../../redux/slices/modalSlice";
+import Icon from 'react-native-vector-icons/FontAwesome';
 export const CustomHeaderButton = ({ navigation }) => {
     const profilePic = useSelector((state) => state.user.profilePic);
     return(
@@ -13,7 +14,7 @@ export const CustomHeaderButton = ({ navigation }) => {
             <View style={{borderWidth:2,borderColor:'rgba(253,252,252,0.45)',borderRadius:50}}>
                 <Avatar.Image
                     size={43}
-                    style={{  // Incrementa el ancho del borde si es necesario
+                    style={{
                         borderColor: '#e5dede',
 
 
@@ -35,21 +36,24 @@ export const Search = () => {
         }}>
             <View style={{
 
-                width: 35,
-                height: 35,
+                height:49,
+                width:49,
+                backgroundColor:'#e7dfdf',
+                borderWidth:2,
+                borderColor:'rgba(217,210,210,0.4)',
                 marginLeft: 35,
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 25,
                 overflow: 'hidden'
             }}>
-                <Searchbar
-                    icon="magnify" // Esto muestra el ícono de búsqueda
+                <Icon
+                    name="search"
+
                     style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: 25, // Hace el Searchbar redondo
-                        backgroundColor: '#b9b6b6' // Cambia el color de fondo si lo necesitas
+                       fontSize: 30,
+                        borderRadius: 25,
+
                     }}
                 />
             </View>

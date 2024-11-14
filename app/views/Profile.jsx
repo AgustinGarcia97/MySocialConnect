@@ -2,26 +2,57 @@ import { TouchableOpacity, View, TextInput,   } from "react-native";
 import { profile_style } from "../assets/styles/profile/profile_style";
 import { ProfileTabView } from "../components/profile_components/ProfileTabView";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { IconButton, MD3Colors, Text,Avatar} from 'react-native-paper'
+import {updateBio, updateLastname, updateName, updateProfilePic, updateUsername} from "../redux/slices/userSlice";
+import {fetch_update_user} from "../api/fetch_user_data";
 
 export const Profile = () => {
 
     const defaultProfilePic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
     const defaultBio = "Software developer. #coding #java #nonstop something about java something about me bla bla bla bla bla bla bla";
-    const defaultPosts = 10;
-    const defaultFollowers = 200;
-    const defaultFollowing = 189;
+
 
     const user = useSelector((state) => state.user);
+    const userId = useSelector((state) => state.user.userId);
     const [name, setName] = useState(useSelector(state => state.user.name));
-    const [lastName, setLastName] = useState(useSelector(state => state.user.lastname));
+    const [lastname, setLastName] = useState(useSelector(state => state.user.lastname));
     const [username, setUsername] = useState(useSelector(state => state.user.username));
+    const [profilePic,setProfilePic] = useState(useSelector(state => state.user.profilePic))
     const [bio, setBio] = useState(defaultBio);
     const [isEditing, setIsEditing] = useState(false);
 
+    const dispatch = useDispatch();
 
-    const toggleEditing = () => setIsEditing(!isEditing);
+    const toggleEditing = async () => {
+        setIsEditing(!isEditing);
+        if(isEditing){
+            if(name){
+                dispatch(updateName(name));
+            }
+            if(lastname){
+                dispatch(updateLastname(lastname));
+            }
+            if(bio){
+                dispatch(updateBio(bio));
+            }
+            if(username){
+                dispatch(updateUsername(username));
+            }
+            if(profilePic){
+                dispatch(updateProfilePic(profilePic));
+            }
+            const data = {
+                name,
+                lastname,
+                profilePic,
+                username,
+                bio
+            }
+            await fetch_update_user(data,userId);
+        }
+
+    };
 
     return (
         <View style={profile_style.profile_container}>
@@ -36,7 +67,7 @@ export const Profile = () => {
             <View style={profile_style.user_info_container}>
                 <View style={profile_style.profile_pic_name_container}>
                     <View style={profile_style.user_profile_pic_container}>
-                        <Avatar.Image size={60} source={{ uri: defaultProfilePic }} />
+                        <Avatar.Image size={60} source={{ uri: profilePic?profilePic.photoUrl : defaultProfilePic }} />
                     </View>
 
                     <View style={profile_style.user_profile_username_container}>
@@ -49,7 +80,7 @@ export const Profile = () => {
                                 placeholder="Nombre"
                             />
                         ) : (
-                            <Text style={profile_style.name_text}>{name + " " + lastName}</Text>
+                            <Text style={profile_style.name_text}>{name + " " + lastname}</Text>
                         )}
 
                         {isEditing ? (

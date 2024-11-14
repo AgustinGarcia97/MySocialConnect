@@ -1,44 +1,38 @@
-import {profile_style} from "../../assets/styles/profile/profile_style";
 import {Dimensions, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
-import index from "../feed_components/post_components/carousel/data";
+import {profile_style} from "../../assets/styles/profile/profile_style";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {fetch_likedPost} from "../../api/fetch_post";
 import {useSelector} from "react-redux";
+import {fetch_taggedPost} from "../../api/fetch_post";
 
 const { width } = Dimensions.get('window');
-const renderItem = ({ item }) => {
 
-        return(
-            <TouchableOpacity onPress={() => alert('post')}>
-                <View  style={profile_style.imageContainer}>
-                    <Image source={{ uri: item.photoList[0].photoUrl }} style={{width:(width/2), height:(width/2)}} />
-                </View>
-            </TouchableOpacity>
-            )
+const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => alert('post')}>
+        <View  style={profile_style.imageContainer}>
+            <Image source={{ uri: item.photoList[0].photoUrl }} style={{width:(width/2), height:(width/2)}} />
+        </View>
+    </TouchableOpacity>
+)
 
-}
-
-
-
-export const LikedPostsComponent = () => {
-
+export const SearchedTaggedView = () => {
     const [posts,setPost] = useState([]);
-    const userId = useSelector((state) => state.user.userId);
+    const userId = useSelector((state) => state.user.searched.userId);
 
 
     useEffect( () => {
         const fetchPosts = async () => {
-            const fetched = await fetch_likedPost(userId);
+            const fetched = await fetch_taggedPost(userId);
             setPost(fetched);
         }
         fetchPosts()
     },[])
 
-    useEffect(() => {
-        console.log("liked:", posts);
-    }, [posts]);
-
+    useEffect( () => {
+            console.log("TAGED",posts);
+    },
+       [posts]
+    )
 
     return(
         <SafeAreaView style={{...profile_style.user_profile_post_container,aspectRatio:0.80}}>

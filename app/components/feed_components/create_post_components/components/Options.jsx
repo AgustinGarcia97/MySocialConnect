@@ -3,6 +3,8 @@ import {TagIcon} from "../../../../assets/icons/TagIcon";
 import Icon from 'react-native-vector-icons/Ionicons';
 import {openLocationModal, openPostModal, openTagPeopleModal} from "../../../../redux/slices/modalSlice";
 import {useDispatch} from "react-redux";
+import {useState} from "react";
+import store from "../../../../redux/store";
 export const Options = () => {
     const dispatch = useDispatch();
 
@@ -15,6 +17,11 @@ export const Options = () => {
     }
 
 
+    const [tagged,setTagged] = useState(null);
+    const state = store.getState();
+    const { location } = state.posts;
+    const {taggedPeople} = state.posts;
+
     return(
         <View style={{gap:5}}>
             <TouchableOpacity onPress={()=>{pressButtonTag()}} style={{alignItems:'center',width:'100%'}}>
@@ -23,7 +30,7 @@ export const Options = () => {
                 paddingLeft:10,gap:5,}}>
                     <Icon name="person-add-sharp" size={30} color="#475A7E" />
                     <Text style={{fontSize:17}}>
-                        Etiquetar personas
+                        {taggedPeople.length>0? `${taggedPeople.length} personas etiquetadas` :"Etiquetar personas"}
                     </Text>
 
                 </View>
@@ -36,7 +43,7 @@ export const Options = () => {
                 }}>
                     <Icon name="location-sharp" size={30} color="#475A7E" />
                     <Text style={{fontSize:17}}>
-                        Agregar ubicación
+                        {location?location: "Agregar ubicación"}
                     </Text>
                 </View>
             </TouchableOpacity>

@@ -6,6 +6,7 @@ import { fetch_login } from "../api/fetch_user_data";
 import { useDispatch } from "react-redux";
 import {getToken, removeToken, storeToken} from "../api/token/manage_token";
 import {fetchUserData} from "../redux/slices/userSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -16,6 +17,8 @@ export const Login = ({ navigation }) => {
         const data = await fetch_login(dispatch, { email, password });
         if(data){
             dispatch(fetchUserData(data))
+            console.log("DATA:",JSON.stringify(data))
+            await AsyncStorage.setItem("userToken", data.access_token);
             navigation.navigate('Feed');
 
         } else{
@@ -38,12 +41,12 @@ export const Login = ({ navigation }) => {
                        style={register_style.logo} resizeMode="cover"
                 />
             </View>
-            <View style={{...register_style.register_text_container, height:180 }}>
-                <View style={{...register_style.register_title_container, marginTop: 30}}>
+            <View style={{...register_style.register_text_container, height:200 }}>
+                <View style={{...register_style.register_title_container}}>
                     <Text style={register_style.register_title}>
-                        <Text style={{...register_style.shadow_subtitle, color:'#f5d03d'}}>My</Text>
-                        <Text style={{...register_style.shadow_subtitle, color:'#d007a4'}}>Social</Text>
-                        <Text style={{...register_style.shadow_subtitle, color:'#0cdea6'}}>Connect</Text>
+                        <Text style={{...register_style.shadow_subtitle, color:'rgba(34,59,232,0.42)'}}>My </Text>
+                        <Text style={{...register_style.shadow_subtitle, color:'rgba(34,59,232,0.42)'}}>Social </Text>
+                        <Text style={{...register_style.shadow_subtitle, color:'rgba(34,59,232,0.42)'}}>Connect</Text>
                     </Text>
                 </View>
             </View>

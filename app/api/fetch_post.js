@@ -1,5 +1,5 @@
 import {
-    addPosts,
+    addPosts, deletePost,
     fetchPostFailure,
     fetchPostsSuccess,
     fetchPostStart,
@@ -16,7 +16,7 @@ export const fetch_posts =  async (dispatch,pageNumber,pageSize) => {
         }
 
         dispatch(fetchPostStart());
-        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/fetch?page=${0}&size=${10}`,options);
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/fetch?page=${pageNumber}&size=${3}`,options);
         if(response.ok){
             const data = await response.json();
             dispatch(fetchPostsSuccess(data));
@@ -69,9 +69,10 @@ export const fetch_post = async (postId,dispatch) => {
 
 }
 
-export const fetch_comments = async (dispatch,postId,token) => {
+export const fetch_comments = async (dispatch,postId,) => {
 
     try{
+        const token = await AsyncStorage.getItem('userToken');
         const options = {
             method: 'GET',
             headers: {
@@ -134,7 +135,7 @@ export const fetchCreateComment = async (dispatch,data) => {
 export const fetchCreatePost =  async (data,dispatch) => {
     try{
         const token = await AsyncStorage.getItem('userToken');
-        console.log('BODY: '+data);
+        console.log('BODY: '+JSON.stringify(data));
         const options = {
             method: 'POST',
             headers:{
@@ -158,6 +159,7 @@ export const fetchCreatePost =  async (data,dispatch) => {
                 lastname: data.user.lastname,
                 likes: data.likes,
                 comments: data.comments,
+                tagged: data.tagged,
             }
 
             dispatch(addPosts(newPost));
@@ -175,8 +177,6 @@ export const fetchCreatePost =  async (data,dispatch) => {
 export const fetchLikeComment = async (request) => {
     try {
         const token = await AsyncStorage.getItem('userToken');
-
-
         const options = {
             method: 'POST',
             headers: {
@@ -187,7 +187,6 @@ export const fetchLikeComment = async (request) => {
         };
 
         const response = await fetch("http://10.0.2.2:8080/like/create", options);
-
         if (response.ok) {
             const data = await response.json();
             console.log("Like creado:", data);
@@ -276,4 +275,80 @@ export async function searchUsers(searchUser) {
     }
 
     return await response.json();
+}
+
+export const fetchDeletePost = async (postId,dispatch) => {
+    const token = await AsyncStorage.getItem('userToken');
+    const options = {
+        method: "DELETE",
+        headers:{
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " +  token
+        }
+
+    }
+
+    try{
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/${postId}`, options);
+        if(response.ok){
+            alert("Post borrado exitosamente");
+            dispatch(deletePost(postId))
+            return true;
+        } else {
+            alert("Error al borrar el post: "+ response.error);
+            return false;
+        }
+
+
+    }
+    catch(error){
+        console.log("Hubo un error al borrar el post: ",error);
+    }
+}
+
+export const fetch_taggedPost = async (userId) => {
+    try{
+        const token = await AsyncStorage.getItem('userToken');
+        const options = {
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " +  token
+            }
+        }
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/tag/${userId}`, options);
+        if(response.ok){
+            return await response.json();
+        }
+        else{
+            console.log("Error al traer los post:", await response.error)
+        }
+    }
+    catch(error){
+        console.log("Error en la solicitud: ", error);
+    }
+}
+
+export const fetch_likedPost = async (userId) => {
+    try{
+        const token = await AsyncStorage.getItem('userToken');
+        const options = {
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " +  token
+            }
+        }
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/like/${userId}`,options);
+        if(response.ok){
+            return await response.json();
+        }
+        else{
+            console.log("Error al traer los post:", response.statusText);
+        }
+
+    }
+    catch(error){
+        console.log("Error en la solicitud: ", error);
+    }
 }

@@ -15,6 +15,7 @@ const initialState = {
     loading:false,
     error:false,
     searched: {},
+    bio: "",
 }
 
 export const userSlice = createSlice({
@@ -27,6 +28,7 @@ export const userSlice = createSlice({
         fetchUserData : (state, action) => {
             state.loading = false;
             state.username = action.payload.username;
+            state.bio = action.payload.bio;
             state.name = action.payload.name;
             state.lastname = action.payload.lastname;
             state.email = action.payload.email;
@@ -59,6 +61,21 @@ export const userSlice = createSlice({
         },
         setSearched(state, action) {
             state.searched = action.payload;
+        },
+        updateName: (state, action) => {
+            state.name = action.payload;
+        },
+        updateLastname: (state, action) => {
+            state.lastname = action.payload;
+        },
+        updateUsername: (state, action) => {
+            state.username = action.payload;
+        },
+        updateProfilePic: (state, action) => {
+            state.profilePic = action.payload;
+        },
+        updateBio:(state,action) => {
+            state.bio = action.payload;
         }
     }
 })
@@ -68,5 +85,10 @@ export const {
     fetchUserData,
     fetchUserError,
     clearData,
-    setSearched
+    setSearched,
+    updateName,
+    updateLastname,
+    updateUsername,
+    updateProfilePic,
+    updateBio,
 } = userSlice.actions;

@@ -77,3 +77,78 @@ export const unfollow = async (dispatch, followerId,followedId) => {
         console.log(errorData);
     }
 }
+
+export const fetch_following_posts = async (dispatch,userId,page,size) => {
+    const token = await AsyncStorage.getItem('userToken');
+    const options = {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' +  token
+        }
+    }
+    try{
+        const response = await fetch(`http://10.0.2.2:8080/api/v1/posts/follows?userId=${userId}&page=${page}&size=${10}`,options);
+        if(response.ok){
+            return await response.json();
+        } else{
+            const errorData = await response.json();
+            console.log("Error:",errorData);
+        }
+    }
+    catch(error){
+        console.log("Error al traer post de followers:",error)
+    }
+
+}
+
+export const fetch_update_user = async(data,userId) => {
+    try{
+        const token =  await AsyncStorage.getItem('userToken');
+        const options = {
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' +  token,
+            },
+            body: JSON.stringify(data)
+
+        }
+        const response = await fetch(`http://10.0.2.2:8080/users/${userId}`, options);
+        if(response.ok){
+            alert("Usuario actualizado correctamente")
+        }
+        else{
+            alert('No se puedo actualizar el usuario')
+        }
+    }
+    catch(error){
+        console.log("Error:",error);
+        }
+
+    }
+
+    export const fetch_delete_account = async(userId) => {
+        try{
+            alert(userId);
+            const token = await AsyncStorage.getItem('userToken');
+            const options = {
+                method: 'DELETE',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' +  token
+                },
+            }
+            const response = await fetch(`http://10.0.2.2:8080/users/${userId}`, options);
+            if(response.ok){
+                return true;
+            } else{
+                console.log("Error en la solicitud: ", await response.error);
+                return false;
+            }
+
+        }
+        catch(error){
+            console.log("Error en la solicitud", error)
+        }
+}

@@ -9,7 +9,7 @@ import { CreateAccount } from "../components/register_components/CreateAccount";
 import { CreateByApple } from "../components/register_components/CreateByApple";
 import { CreateByGoogle } from "../components/register_components/CreateByGoogle";
 import { CreatePassword } from "../components/register_components/registration_steps/CreatePassword";
-import {TouchableOpacity, Text, Button} from "react-native";
+import {TouchableOpacity, Text, Button, View} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getToken, removeToken } from "../api/token/manage_token";
 import { useEffect, useState } from "react";
@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {clearData} from "../redux/slices/userSlice";
 import {SearchedProfile} from "../views/SearchedProfile";
 import {SetProfilePicBio} from "../components/register_components/registration_steps/SetProfilePicBio";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {fetch_delete_account} from "../api/fetch_user_data";
 
 
 
@@ -25,15 +27,39 @@ const Drawer = createDrawerNavigator();
 
 export const Navigation = () => {
     const [hasToken, setHasToken] = useState(false);
-    const isFocused = useIsFocused(); // Detecta si la pantalla está enfocada
-    const [token,setToken] = useState( useSelector(state => state.user.token) );
+    const isFocused = useIsFocused();
+    const [token, setToken] = useState(null);
     const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
+    const userId = useSelector(state => state.user.userId);
+    useEffect(() => {
+        const fetchToken = async () => {
+            const storedToken = await AsyncStorage.getItem("userToken");
+            setToken(storedToken);
+        };
 
-    const handleLogout = () => {
+        fetchToken();
+    }, []);
+
+
+
+    const handleLogout = async () => {
         dispatch(clearData());
+        await AsyncStorage.removeItem("userToken");
         setHasToken(false);
     };
+
+    const handlerDeleteAccount = async () => {
+        const flag = await fetch_delete_account(userId)
+        if(flag){
+            alert("Tu cuenta ha sido dada de baja.")
+            await handleLogout()
+
+        } else {
+            alert("Hubo un error al dar de baja tu cuenta.")
+        }
+
+
+    }
 
     useEffect(() => {
         if (token) {
@@ -50,33 +76,64 @@ export const Navigation = () => {
             <>
                 {token ? (
 
-                    <>
-                        <Button
-                            title="Logout"
-                            onPress={() => {
-                                handleLogout(navigation);
-                            }}
-                        />
-                        <Button
-                            title={"Feed"}
-                            onPress={() => navigation.navigate("Feed")}
-                        />
-                        <Button
-                            title={"Perfil"}
-                            onPress={() => navigation.navigate("Profile")}
-                        />
-                    </>
+                     <View style={{alignItems:"center",width:'100%', gap:20,}}>
+                        <TouchableOpacity style={{width:'100%', alignItems:'center'}}  onPress={() => {handleLogout(navigation);}}>
+                            <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                <Text style={{fontSize:18, fontWeight:'700'}}>Logout</Text>
+                            </View>
+
+                        </TouchableOpacity>
+
+                         <TouchableOpacity style={{width:'100%', alignItems:'center'}} onPress={() => navigation.navigate("Feed")}>
+                             <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                 <Text style={{fontSize:18, fontWeight:'700'}}>Feed</Text>
+                             </View>
+
+                         </TouchableOpacity>
+
+                         <TouchableOpacity style={{width:'100%', alignItems:'center'}} onPress={() => navigation.navigate("Profile")}>
+                             <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                 <Text style={{fontSize:18, fontWeight:'700'}}>Mi Perfil</Text>
+                             </View>
+                         </TouchableOpacity>
+
+                         <TouchableOpacity style={{width:'100%', alignItems:'center'}} onPress={() => handlerDeleteAccount()}>
+                             <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                 <Text style={{fontSize:18, fontWeight:'700'}}>Borrar cuenta</Text>
+                             </View>
+                         </TouchableOpacity>
+
+
+                    </View>
                 ) : (
-                    <>
-                        <Button
-                            title={"Iniciar sesión"}
-                            onPress={() => navigation.navigate("Login")}
-                        />
-                        <Button
-                            title={"Registrarse"}
-                            onPress={() => navigation.navigate("Register")}
-                        />
-                    </>
+
+                        <View style={{alignItems:"center",width:'100%', gap:20,}}>
+
+                                <TouchableOpacity style={{width:'100%', alignItems:'center'}} onPress={() => navigation.navigate("Feed")}>
+                                    <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                        <Text style={{fontSize:18, fontWeight:'700'}}>Feed</Text>
+                                    </View>
+                                </TouchableOpacity>
+
+
+
+
+                            <TouchableOpacity  style={{width:'100%', alignItems:'center'}}   onPress={() => navigation.navigate("Login")}>
+                                <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                    <Text  style={{fontSize:18, fontWeight:'700'}}>Iniciar sesión</Text>
+                                </View>
+
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{width:'100%', alignItems:'center'}}    onPress={() => navigation.navigate("Register")}>
+                                <View style={{width:'95%',height:40, backgroundColor:'rgba(255,255,255,0.72)',alignItems:'center',justifyContent:'center',borderRadius:50}}>
+                                    <Text  style={{fontSize:18, fontWeight:'700'}}>Registrarse</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+
+
                 )}
             </>
         );

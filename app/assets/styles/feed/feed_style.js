@@ -17,10 +17,11 @@ export const feedStyles = StyleSheet.create({
     },
     text_container: {
         width:"90%",
-        border:'1px solid black',
+
         height:'auto',
         marginVertical:20,
         justifyContent:'center',
+        backgroundColor:'transparent',
     },
 
     input_text:{
