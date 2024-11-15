@@ -2,7 +2,7 @@ import {profile_style} from "../../assets/styles/profile/profile_style";
 import {Dimensions, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
 import index from "../feed_components/post_components/carousel/data";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 
 const { width } = Dimensions.get('window');
@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => alert('post')}>
         <View  style={profile_style.imageContainer}>
-            <Image source={{ uri: item.photoList[0].photoUrl }} style={{width:(width/2), height:(width/2)}} />
+            <Image source={{  uri: item?.photoList?.[0]?.photoUrl || 'https://images.vexels.com/content/143590/preview/taped-instant-photo-b2e399.png'}} style={{width:(width/2), height:(width/2)}} />
         </View>
     </TouchableOpacity>
 )
@@ -20,6 +20,10 @@ const renderItem = ({ item }) => (
 export const UserSearchedPosts = () => {
     const searched = useSelector((state) => state.user.searched);
     const [postSelected, setPostSelected] = useState(searched?searched.posts:[]);
+
+    useEffect(()=> {
+        setPostSelected(searched?searched.posts:[]);
+    },[searched])
 
 
     return(

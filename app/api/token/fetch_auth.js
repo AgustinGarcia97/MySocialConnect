@@ -9,9 +9,16 @@ export const fetch_register = async (data,dispatch) => {
             body: JSON.stringify(data)
         }
         const response = await fetch("http://socialconnectserver-env-2.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/auth/register", options);
-        return  response.ok() === true;
+        if(response.ok){
+            console.log(await response.json());
+            return await response.json();
+        }
+        else{
+            alert(response.error)
+        }
     } catch(error){
         console.log("Error al registrarse:",error)
+        alert(error)
     }
 
 }

@@ -1,7 +1,7 @@
 import { TouchableOpacity, View, TextInput,   } from "react-native";
 import { profile_style } from "../assets/styles/profile/profile_style";
 import { ProfileTabView } from "../components/profile_components/ProfileTabView";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { IconButton, MD3Colors, Text,Avatar} from 'react-native-paper'
 import {updateBio, updateLastname, updateName, updateProfilePic, updateUsername} from "../redux/slices/userSlice";
@@ -21,8 +21,13 @@ export const Profile = () => {
     const [profilePic,setProfilePic] = useState(useSelector(state => state.user.profilePic))
     const [bio, setBio] = useState(defaultBio);
     const [isEditing, setIsEditing] = useState(false);
-
+    const [u,setU] = useState(user);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setU(user)
+    },[user])
+
 
     const toggleEditing = async () => {
         setIsEditing(!isEditing);
@@ -114,13 +119,13 @@ export const Profile = () => {
 
                 <View style={profile_style.user_profile_follows_followers_container}>
                     <Text style={profile_style.post_text}>
-                        <Text style={{ fontWeight: 'bold' }}>{user.posts? user.posts.length:0}{' '}</Text>Publicaciones
+                        <Text style={{ fontWeight: 'bold' }}>{u.posts? u.posts.length:0}{' '}</Text>Publicaciones
                     </Text>
                     <TouchableOpacity style={profile_style.post_text}>
-                        <Text><Text style={{ fontWeight: 'bold' }}>{user.follewers? user.follewers.length:0}{' '}</Text>Seguidores</Text>
+                        <Text><Text style={{ fontWeight: 'bold' }}>{u.follewers? u.follewers.length:0}{' '}</Text>Seguidores</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={profile_style.post_text}>
-                        <Text><Text style={{ fontWeight: 'bold' }}>{user.following?user.following.length:0}{' '}</Text>Siguiendo</Text>
+                        <Text><Text style={{ fontWeight: 'bold' }}>{u.following?u.following.length:0}{' '}</Text>Siguiendo</Text>
                     </TouchableOpacity>
                 </View>
             </View>

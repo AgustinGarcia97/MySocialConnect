@@ -38,7 +38,7 @@ export const fetch_login = async (dispatch, auth) => {
 
 
 export const fetch_add_follow_followers = async (dispatch, data,token) => {
-    alert(token)
+
     const options = {
         method: 'POST',
         headers:{

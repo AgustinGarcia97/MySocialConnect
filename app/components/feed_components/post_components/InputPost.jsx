@@ -13,14 +13,6 @@ export const InputPost =  () => {
     const [profilePic,setProfilePic] = useState(useSelector(state => state.user.profilePic));
     const token = useSelector((state) => state.user.token);
 
-    useEffect(() => {
-        const fetchToken = async () => {
-            const storedToken = await AsyncStorage.getItem("userToken");
-            setToken(storedToken);
-        };
-
-        fetchToken();
-    }, []);
 
     const pressButton = () => {
         dispatch(openPostModal());
