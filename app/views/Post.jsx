@@ -34,6 +34,18 @@ export const Post = ({item,updatePosts}) => {
     const userId = useSelector((state) => state.user.userId);
     const [isPressed, setIsPressed] = useState(false);
     const [countLikes,setCountLikes] = useState(item.likes?item.likes.length:0);
+    const isLongText = item.description.length > maxLength;
+
+    const [showViewMore, setShowViewMore] = useState(false);
+
+
+
+    const handleTextLayout = (e) => {
+        const { lines } = e.nativeEvent;
+        if (lines.length > 2) {
+            setShowViewMore(true);
+        }
+    };
 
     const handlePressButton = async (item) => {
         dispatch(openCommentModal());
@@ -84,7 +96,7 @@ export const Post = ({item,updatePosts}) => {
                             <Text style={{
                                 color:'#fff',
                                 fontSize:15,
-                            }}>@{item.user.username}</Text>
+                            }}>@{item.user.nickname}</Text>
                         </View>
                         <View  style={{marginLeft:110,alignItems:'center',gap:20}}>
                             {userId === item.user.userId? (
@@ -138,13 +150,17 @@ export const Post = ({item,updatePosts}) => {
                         paddingBottom:15,
 
                     }}>
-                        <Text style={{}}>
-                            <Text style={{fontWeight:'bold', fontSize:16, }}>{item.user.username}</Text>
+                        <Text style={{ marginHorizontal: -3 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.user.nickname}</Text>
                             {' '}
-                            {showFullText ? item.description : `${item.description.substring(0, maxLength)}...`}
-                            <Text  onPress={toggleText} style={{color:'#4b62b6'}}>
-                                {showFullText ? 'View Less' : 'View More'}
-                            </Text>
+                            {isLongText
+                                ? (showFullText ? item.description : item.description.substring(0, maxLength) + '...')
+                                : item.description}
+                            {isLongText && (
+                                <Text onPress={toggleText} style={{ color: '#4b62b6' }}>
+                                    {showFullText ? 'View Less' : 'View More'}
+                                </Text>
+                            )}
                         </Text>
                         <TouchableOpacity style={{marginVertical:5}} onPress={handlePressButton}>
                             <Text style={{paddingBottom:2}}>Ver los comentarios</Text>

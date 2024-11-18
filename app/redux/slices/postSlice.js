@@ -12,6 +12,7 @@ const initialState = {
     likes_actualPost: {},
     title: "",
     description: "",
+    followingPosts: [],
     photos: [],
     comments:[],
     location: "",
@@ -105,6 +106,7 @@ export const postsSlice = createSlice({
         },
 
         addPhotos: (state, action) => {
+            alert(action.payload)
             state.photos = [...state.photos, action.payload];
         },
         addLocation: (state, action) => {
@@ -123,6 +125,7 @@ export const postsSlice = createSlice({
 
         },
         addPosts: (state, action) => {
+
             state.posts = [...state.posts, action.payload];
 
 
@@ -146,6 +149,16 @@ export const postsSlice = createSlice({
         },
         deleteLocation:(state, action) => {
             state.location = '';
+        },
+        addFollowingPosts:(state, action) => {
+
+            if(action.payload.length > 0) {
+                state.followingPosts = [...state.followingPosts,...action.payload];
+            }
+
+        },
+        removeFollowingPosts:(state,action) => {
+            state.followingPosts = state.followingPosts.filter(post => post.userId !== action.payload);
         }
 
 
@@ -172,6 +185,8 @@ export const {
     addTag,
     fetchCommentsSuccess,
     fetchStartCommentFailure,
+    addFollowingPosts,
+    removeFollowingPosts,
     deleteLocation,
     deletePost
 } = postsSlice.actions;

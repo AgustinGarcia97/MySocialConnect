@@ -1,6 +1,6 @@
-import {profile_style} from "../../assets/styles/profile/profile_style";
+import {profile_style} from "../../../assets/styles/profile/profile_style";
 import {Dimensions, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
-import index from "../feed_components/post_components/carousel/data";
+import index from "../../feed_components/post_components/carousel/data";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
@@ -18,11 +18,11 @@ const renderItem = ({ item }) => (
 
 
 export const UserSearchedPosts = () => {
-    const searched = useSelector((state) => state.user.searched);
-    const [postSelected, setPostSelected] = useState(searched?searched.posts:[]);
+    const searched = useSelector((state) => state.searched.searchedUser.posts);
 
+    const [postSelected, setPostSelected] = useState(searched?searched:[]);
     useEffect(()=> {
-        setPostSelected(searched?searched.posts:[]);
+        setPostSelected(searched?searched:[]);
     },[searched])
 
 

@@ -3,7 +3,7 @@ import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {Dimensions, StatusBar, View} from "react-native";
 import {Button, PaperProvider} from "react-native-paper";
 import {Navigation} from "./app/navigation/Navigation";
-import {Navbar} from "./app/components/Navbar";
+import {Navbar} from "./app/components/navbar/Navbar";
 import {Provider} from "react-redux";
 import store from "./app/redux/store";
 import {NavigationContainer} from "@react-navigation/native";

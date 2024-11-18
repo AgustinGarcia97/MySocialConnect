@@ -5,6 +5,8 @@ import {createPostSlice} from "./slices/createPostSlice";
 import {userSlice} from "./slices/userSlice";
 import {postsSlice} from "./slices/postSlice";
 import {loginSlice} from "./slices/loginSlice";
+import {searchedSlice} from "./slices/searchedSlice";
+
 
 
 
@@ -16,6 +18,8 @@ const store = configureStore({
         user: userSlice.reducer,
         posts: postsSlice.reducer,
         login: loginSlice.reducer,
+        searched: searchedSlice.reducer,
+
     },
 });
 

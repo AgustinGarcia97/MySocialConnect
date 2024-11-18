@@ -40,6 +40,10 @@ export const GeneralPost = () => {
         fetchData();
     }, [page]);
 
+    useEffect(() => {
+        setPosts(postsRedux)
+    },[postsRedux])
+
     const loadMore = () => {
         if (!loading) {
             setPage((prevPage) => prevPage + 1);

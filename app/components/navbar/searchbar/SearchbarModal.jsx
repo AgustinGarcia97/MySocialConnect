@@ -1,18 +1,20 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeLocationModal } from "../../../../redux/slices/modalSlice";
+
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {View, Text,StyleSheet, ImageBackground, Button, TouchableOpacity} from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
 import 'react-native-get-random-values';
-import {addLocation} from "../../../../redux/slices/postSlice";
-import {closeSearchBarModal} from "../../redux/slices/modalSlice";
+
+import {closeSearchBarModal} from "../../../redux/slices/modalSlice";
 import {TextInput} from "react-native-paper";
 import debounce from "debounce";
-import {searchUsers} from "../../api/fetch_post";
+import {searchUsers} from "../../../api/fetch_post";
 import {FlatList} from "react-native-gesture-handler";
 import {useNavigation} from "@react-navigation/native";
-import {setSearched} from "../../redux/slices/userSlice";
+import {setSearched} from "../../../redux/slices/searchedSlice";
+
+
 
 
 export const SearchbarModal = () => {
@@ -69,6 +71,8 @@ export const SearchbarModal = () => {
 
     const handleSearch = (navigate,user) => {
         dispatch(setSearched(user));
+        setUsername("");
+        dispatch(closeSearchBarModal());
         navigate("SearchedProfile", {user})
     }
 

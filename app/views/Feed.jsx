@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { getToken } from "../api/token/manage_token";
 import { useIsFocused } from "@react-navigation/native";
 import {fetchPostsSuccess} from "../redux/slices/postSlice";
-import {SearchbarModal} from "../components/searchbar/SearchbarModal";
+import {SearchbarModal} from "../components/navbar/searchbar/SearchbarModal";
 import {CreatePostModal} from "./CreatePostModal";
 import {TagPeople} from "../components/feed_components/create_post_components/tag_people/TagPeople";
 import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";

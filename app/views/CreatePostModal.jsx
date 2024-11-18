@@ -8,11 +8,12 @@ import SelectPhoto from "../components/feed_components/create_post_components/co
 import {UserData} from "../components/feed_components/create_post_components/components/UserData";
 import {TextComponent} from "../components/feed_components/create_post_components/components/TextComponent";
 import {Options} from "../components/feed_components/create_post_components/components/Options";
-import {createPost} from "../redux/slices/postSlice";
+import {addPosts, createPost} from "../redux/slices/postSlice";
 import {fetchCreatePost} from "../api/fetch_post";
 import {TaggedPeople} from "../components/feed_components/post_components/tagged_people/TaggedPeople";
 import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";
 import {TagPeople} from "../components/feed_components/create_post_components/tag_people/TagPeople";
+import {addPostsToUserList} from "../redux/slices/userSlice";
 export const  CreatePostModal =  props => {
     const bottomSheetModalRef = useRef(null);
     const snapPoints = useMemo(() => [ '90%','100%'], []);
@@ -52,7 +53,7 @@ export const  CreatePostModal =  props => {
             userId,
             tagged,
         }
-
+        dispatch(addPostsToUserList(data));
         await fetchCreatePost(data,dispatch);
         dispatch(closePostModal());
 

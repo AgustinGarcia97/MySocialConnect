@@ -8,7 +8,8 @@ const initialState = {
     email:"",
     password:"",
     profilePicture:"",
-    bio:"",
+    biography:"",
+    nickname:"",
 }
 
 export const registerSlice = createSlice({
@@ -34,7 +35,10 @@ export const registerSlice = createSlice({
             state.password = action.payload;
         },
         setBioSlice: (state, action) => {
-            state.bio = action.payload;
+            state.biography = action.payload;
+        },
+        setNicknameSlice: (state, action) => {
+            state.nickname = action.payload;
         },
         deleteDataSlice:(state, action) => {
             state.name = "";
@@ -54,6 +58,7 @@ export const {
     setLastNameSlice,
     setBioSlice,
     deleteDataSlice,
+    setNicknameSlice,
     setUsernameSlice
 } = registerSlice.actions;
 

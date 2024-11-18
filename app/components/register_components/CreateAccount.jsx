@@ -6,7 +6,7 @@ import {
     setBioSlice,
     setBirthdateSlice,
     setEmailSlice, setLastNameSlice,
-    setNameSlice,
+    setNameSlice, setNicknameSlice,
     setPasswordSlice,
     setPhoneNumberSlice, setUsernameSlice
 } from "../../redux/slices/registerSlice";
@@ -22,7 +22,7 @@ const input_list = [
         label:'Apellido',
     },
     {
-        label:'Email',
+        label:'Nickname',
     },
     {
         label:'Username',
@@ -38,6 +38,7 @@ export const CreateAccount = ({navigation}) => {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [lastname, setLastname] = useState("");
+    const [nickname,setNickname] = useState("");
     const dispatch = useDispatch();
 
     const handleTextChange = (e, label) => {
@@ -51,13 +52,13 @@ export const CreateAccount = ({navigation}) => {
                 setLastname(e);
                 dispatch(setLastNameSlice(e));
                 break;
-            case 'Email':
-                setEmail(e);
-                dispatch(setEmailSlice(e));
-                break;
             case 'Username':
                 setUsername(e);
                 dispatch(setUsernameSlice(e));
+                break;
+            case 'Nickname':
+               setNickname(e);
+               dispatch(setNicknameSlice(e));
                 break;
             default:
                 alert(label);
@@ -83,9 +84,9 @@ export const CreateAccount = ({navigation}) => {
                                 style={{...createAccountStyle.text_input}}
                                 value={
                                     item.label === 'Nombre' ? name :
-                                        item.label === 'Email' ? email :
+                                        item.label === 'Username' ? username :
                                             item.label === 'Password' ? password :
-                                                item.label === 'Username' ? username :
+                                                item.label === 'Nickname' ? nickname :
                                                     item.label === 'Apellido' ? lastname :
                                                         ""
                                 }

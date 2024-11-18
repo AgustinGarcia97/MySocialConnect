@@ -28,7 +28,8 @@ export const CreatePassword = ({navigation}) => {
     const username = useSelector((state) => state.register.username);
     const email = useSelector((state) => state.register.email);
     const profilePicture = useSelector((state) => state.register.profilePicture);
-    const bio = useSelector((state) => state.register.bio);
+    const biography = useSelector((state) => state.register.biography);
+    const nickname = useSelector((state) => state.register.nickname);
     const dispatch = useDispatch();
 
 
@@ -39,8 +40,8 @@ export const CreatePassword = ({navigation}) => {
         console.log("Email:", email);
         console.log("Password:", password);
         console.log("Profile Picture URL:", profilePicture);
-        console.log("Bio:", bio);
-    }, [name, lastname, username, email, password, profilePicture, bio]);
+
+    }, [name, lastname, username, email, password, profilePicture]);
 
 
     const handleTextChange = (e, label) => {
@@ -63,10 +64,11 @@ export const CreatePassword = ({navigation}) => {
             const data = {
                 name,
                 lastname,
-                email,
                 password,
                 profilePicture,
                 username,
+                nickname,
+                biography,
                 role:"USER",
 
             }

@@ -17,12 +17,17 @@ import {fetch_following_posts} from "../../../api/fetch_user_data";
 export const FollowedPost = () => {
     const dispatch = useDispatch();
     const open = useSelector((state) => state.modal.open);
-    const [posts, setPosts] = useState([]);
+    const p = useSelector((state) => state.posts.followingPosts);
+    const [posts, setPosts] = useState(p);
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
     const userId = useSelector(state => state.user.userId);
 
     const [refreshing, setRefreshing] = useState(false);
+
+    useEffect(()=>{
+        setPosts(p);
+    },[p])
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);

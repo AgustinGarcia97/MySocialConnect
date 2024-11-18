@@ -21,6 +21,7 @@ export const AddLocationModal = () => {
 
     const handlerLocation = (location) => {
         dispatch(addLocation({location:location}));
+        dispatch(closeLocationModal());
     }
 
     const handlerRemoveLocation = () => {

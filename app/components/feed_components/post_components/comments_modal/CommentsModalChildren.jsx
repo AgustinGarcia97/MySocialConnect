@@ -122,25 +122,22 @@ export const CommentsModalChildren = () => {
                 <View style={modal_comments.title_view}>
                     <Text style={{ ...modal_comments.title }}>Comentarios</Text>
                 </View>
-                <IconButton
-                    icon={() => <Icon size={30} name={"send"} />}
-                    size={30}
-                    color={'black'}
-                    onPress={handleSendComment}
-                />
+
             </View>
 
-            <FlatList
-                data={comments}
-                renderItem={({ item }) => (
-                    <CommentItem
-                        item={item}
+                <FlatList
+                    data={comments}
+                    renderItem={({ item }) => (
+                        <CommentItem
+                            item={item}
 
-                        handleLikeComment={handleLikeComment}
-                    />
-                )}
-                keyExtractor={(item, index) =>  item.commentId.toString()}
-            />
+                            handleLikeComment={handleLikeComment}
+                        />
+                    )}
+                    keyExtractor={(item, index) =>  item.commentId.toString()}
+                />
+
+
 
             <View style={{ marginBottom: 30, flexDirection: 'row', justifyContent: 'start', width: '100%',alignItems:'center',gap:5 }}>
                 <TextInput
@@ -166,58 +163,55 @@ export const CommentsModalChildren = () => {
 
 const CommentItem = ({ item, handleLikeComment }) => {
     const [liked, setLiked] = useState(item.likes ? item.likes.length : 0);
+    const [isLiked, setIsLiked] = useState(item.likes?.some(like => like.user?.userId === userId) || false);
     const userId = useSelector((state) => state.user.userId);
-
+    console.log("liked", JSON.stringify(item.likes));
 
     useEffect(() => {
-
         setLiked(item.likes ? item.likes.length : 0);
-    }, [item.likes]);
-
+        setIsLiked(item.likes?.some(like => like.user?.userId === userId) || false);
+    }, [item.likes, userId]);
 
     const handleLikeToggle = () => {
-
         handleLikeComment(item.commentId);
 
 
         setLiked((prevLiked) => {
-            if (prevLiked > 0) {
-                return prevLiked - 1;
-            } else {
-                return prevLiked + 1;
-            }
+            const newLiked = isLiked ? prevLiked - 1 : prevLiked + 1;
+            setIsLiked(!isLiked);
+            return newLiked;
         });
     };
 
     return (
-        <View style={{flexDirection: 'row', marginBottom: 15, padding: 10}}>
-            <View style={{marginRight: 10}}>
-                <Avatar.Image
-                    size={35}
-                    source={{
-                        uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
-                    }}
-                    style={{backgroundColor: 'transparent'}}
-                />
-            </View>
-            <View style={{flex: 1, justifyContent: 'space-between', flexDirection: 'row'}}>
-                <View style={{flex: 3, justifyContent: 'space-between'}}>
-                    <Text>{item.comment}</Text>
+        <View style={{ flexDirection: 'row', marginBottom: 5, padding: 5 ,marginTop:20}}>
+
+            <View style={{ flex: 1, flexDirection: 'row',width:'80%' }}>
+
+                <View style={{ flex: 2, flexDirection:'column',gap:5, }}>
+                    <View style={{flexDirection:'row',marginRight:20,}}>
+
+                        <Text> <Text style={{fontWeight:'bold',marginLeft:10,fontSize:15}}>{"@"+item.user.nickname}</Text> {" "+item.comment}</Text>
+                    </View>
+
                     <Text>{item.createdAt}</Text>
                 </View>
-                <View style={{alignItems: 'center'}}>
+                <View style={{ alignItems: 'center' }}>
                     <TouchableOpacity onPress={handleLikeToggle}>
                         <Icon
-
                             name="heart"
                             size={20}
-                            color={liked > 0 ? "red" : "gray"}
+                            color={isLiked ? "red" : (liked > 0 && item.likes?.some(like => like.user?.userId === userId) ? "red" : "gray")}
                         />
                     </TouchableOpacity>
                     <Text>{liked} likes</Text>
+
                 </View>
+
             </View>
+
         </View>
+
     );
 };
 

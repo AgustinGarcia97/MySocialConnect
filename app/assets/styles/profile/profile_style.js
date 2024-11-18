@@ -101,6 +101,7 @@ export const profile_style =  StyleSheet.create({
        flex:1,
     },
     imageContainer: {
+        padding:1,
         flex: 1,
 
     },

@@ -1,6 +1,6 @@
 import { TouchableOpacity, View, TextInput,   } from "react-native";
 import { profile_style } from "../assets/styles/profile/profile_style";
-import { ProfileTabView } from "../components/profile_components/ProfileTabView";
+import { ProfileTabView } from "../components/profile_components/user/ProfileTabView";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { IconButton, MD3Colors, Text,Avatar} from 'react-native-paper'
@@ -14,20 +14,18 @@ export const Profile = () => {
 
 
     const user = useSelector((state) => state.user);
+    const followersR = user.followers;
+    const followingR = user.following;
     const userId = useSelector((state) => state.user.userId);
     const [name, setName] = useState(useSelector(state => state.user.name));
     const [lastname, setLastName] = useState(useSelector(state => state.user.lastname));
     const [username, setUsername] = useState(useSelector(state => state.user.username));
     const [profilePic,setProfilePic] = useState(useSelector(state => state.user.profilePic))
-    const [bio, setBio] = useState(defaultBio);
+    const [bio, setBio] = useState(useSelector(state => state.user.bio));
     const [isEditing, setIsEditing] = useState(false);
-    const [u,setU] = useState(user);
+    const [followers, setFollowers] = useState(followersR);
+    const [followings, setFollowing] = useState(followingR);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        setU(user)
-    },[user])
-
 
     const toggleEditing = async () => {
         setIsEditing(!isEditing);
@@ -59,6 +57,23 @@ export const Profile = () => {
 
     };
 
+    useEffect(() => {
+        setName(user.name);
+        setLastName(user.lastname);
+        setUsername(user.username);
+        setProfilePic(user.profilePic);
+        setBio(user.bio);
+        setFollowers(user.followers);
+        setFollowing(user.following);
+    }, [user]);
+
+
+    useEffect(() => {
+            setFollowing(followingR);
+            setFollowers(followersR)
+        },[user]
+    )
+
     return (
         <View style={profile_style.profile_container}>
             <View style={{ ...profile_style.header_options_container, flexDirection: 'row-reverse' }}>
@@ -72,7 +87,12 @@ export const Profile = () => {
             <View style={profile_style.user_info_container}>
                 <View style={profile_style.profile_pic_name_container}>
                     <View style={profile_style.user_profile_pic_container}>
-                        <Avatar.Image size={60} source={{ uri: profilePic?profilePic.photoUrl : defaultProfilePic }} />
+                        <Avatar.Image
+                            size={60}
+                            source={{
+                                uri: profilePic?.photoUrl !== "" ? profilePic.photoUrl : defaultProfilePic
+                            }}
+                        />
                     </View>
 
                     <View style={profile_style.user_profile_username_container}>
@@ -119,13 +139,13 @@ export const Profile = () => {
 
                 <View style={profile_style.user_profile_follows_followers_container}>
                     <Text style={profile_style.post_text}>
-                        <Text style={{ fontWeight: 'bold' }}>{u.posts? u.posts.length:0}{' '}</Text>Publicaciones
+                        <Text style={{ fontWeight: 'bold' }}>{user.posts? user.posts.length:0}{' '}</Text>Publicaciones
                     </Text>
                     <TouchableOpacity style={profile_style.post_text}>
-                        <Text><Text style={{ fontWeight: 'bold' }}>{u.follewers? u.follewers.length:0}{' '}</Text>Seguidores</Text>
+                        <Text><Text style={{ fontWeight: 'bold' }}>{followers? followers.length:0}{' '}</Text>Seguidores</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={profile_style.post_text}>
-                        <Text><Text style={{ fontWeight: 'bold' }}>{u.following?u.following.length:0}{' '}</Text>Siguiendo</Text>
+                        <Text><Text style={{ fontWeight: 'bold' }}>{followings?followings.length:0}{' '}</Text>Siguiendo</Text>
                     </TouchableOpacity>
                 </View>
             </View>
