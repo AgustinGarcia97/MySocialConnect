@@ -19,6 +19,7 @@ const initialState = {
     userId:"",
     taggedPeople:[],
     newPost:{},
+    flag: false
 
 }
 
@@ -106,7 +107,6 @@ export const postsSlice = createSlice({
         },
 
         addPhotos: (state, action) => {
-            alert(action.payload)
             state.photos = [...state.photos, action.payload];
         },
         addLocation: (state, action) => {
@@ -144,7 +144,8 @@ export const postsSlice = createSlice({
 
         },
         deletePost:(state,action) => {
-            state.posts = state.posts.filter(post => post.id !== action.payload);
+            state.posts = state.posts.filter(post => post.postId !== action.payload);
+
 
         },
         deleteLocation:(state, action) => {
@@ -159,6 +160,31 @@ export const postsSlice = createSlice({
         },
         removeFollowingPosts:(state,action) => {
             state.followingPosts = state.followingPosts.filter(post => post.userId !== action.payload);
+        },
+        clearDataPosts:(state, action) => {
+                state.posts= [];
+                state.actualPost=[];
+                state.comment_actualPost= {};
+                state.likes_actualPost= {};
+                state.title= "";
+                state.description= "";
+                state.followingPosts= [];
+                state.photos= [];
+                state.comments=[];
+                state.location= "";
+                state.userId="";
+                state.taggedPeople=[];
+
+        },
+        changeFlag:(state, action) => {
+            state.flag = action.payload;
+
+        },
+        removeTagged:(state, action) => {
+            state.taggedPeople = [];
+        },
+        removeLocation: (state,action) => {
+            state.location = "";
         }
 
 
@@ -188,5 +214,9 @@ export const {
     addFollowingPosts,
     removeFollowingPosts,
     deleteLocation,
-    deletePost
+    deletePost,
+    clearDataPosts,
+    changeFlag,
+    removeTagged,
+    removeLocation
 } = postsSlice.actions;

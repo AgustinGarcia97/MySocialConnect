@@ -11,6 +11,7 @@ export const PeopleList = () => {
     const dispatch = useDispatch();
 
     const handlerSelectPeople = (data) => {
+
         dispatch(addTag({userId:'id'}));
 
     }

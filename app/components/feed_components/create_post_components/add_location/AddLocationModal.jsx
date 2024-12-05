@@ -80,7 +80,6 @@ export const AddLocationModal = () => {
                         query={{
                             key: "AIzaSyAWz9jhuzDo5jrLPPWW5a9ro-BmRPPHBso",
                             language: "es",
-                            components: "country:ar",
                             input: direction
                         }}
                         textInputProps={{

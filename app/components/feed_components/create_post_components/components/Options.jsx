@@ -2,9 +2,10 @@ import {TouchableOpacity, View,Text} from "react-native";
 import {TagIcon} from "../../../../assets/icons/TagIcon";
 import Icon from 'react-native-vector-icons/Ionicons';
 import {openLocationModal, openPostModal, openTagPeopleModal} from "../../../../redux/slices/modalSlice";
-import {useDispatch} from "react-redux";
-import {useState} from "react";
-import store from "../../../../redux/store";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {store} from "../../../../redux/store";
+import {changeFlag} from "../../../../redux/slices/postSlice";
 export const Options = () => {
     const dispatch = useDispatch();
 
@@ -17,10 +18,16 @@ export const Options = () => {
     }
 
 
-    const [tagged,setTagged] = useState(null);
+    const [tagged,setTagged] = useState([]);
     const state = store.getState();
     const { location } = state.posts;
     const {taggedPeople} = state.posts;
+
+
+
+
+
+
 
     return(
         <View style={{gap:5}}>

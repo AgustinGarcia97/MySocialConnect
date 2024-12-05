@@ -47,6 +47,7 @@ export const profile_style =  StyleSheet.create({
         width:'70%',
         height:'100%',
         justifyContent:'center',
+
     },
     name_text:{
         fontWeight:'bold',

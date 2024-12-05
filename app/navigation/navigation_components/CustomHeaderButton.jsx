@@ -5,6 +5,7 @@ import {Searchbar} from "react-native-paper";
 import {useDispatch, useSelector} from "react-redux";
 import {openSearchBarModal} from "../../redux/slices/modalSlice";
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 export const CustomHeaderButton = ({ navigation }) => {
     const profilePic = useSelector((state) => state.user.profilePic);
     return(

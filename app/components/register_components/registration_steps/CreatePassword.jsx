@@ -7,6 +7,7 @@ import {createAccountStyle, register_style} from "../../../assets/styles/registe
 import {fetch_login} from "../../../api/fetch_user_data";
 import {setPasswordSlice} from "../../../redux/slices/registerSlice";
 import {fetch_register} from "../../../api/token/fetch_auth";
+import messaging from "@react-native-firebase/messaging";
 
 
 const input_list = [
@@ -31,7 +32,8 @@ export const CreatePassword = ({navigation}) => {
     const biography = useSelector((state) => state.register.biography);
     const nickname = useSelector((state) => state.register.nickname);
     const dispatch = useDispatch();
-
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     useEffect(() => {
         console.log("Name:", name);
@@ -43,22 +45,53 @@ export const CreatePassword = ({navigation}) => {
 
     }, [name, lastname, username, email, password, profilePicture]);
 
+    const validatePassword = (password) => {
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+        return passwordRegex.test(password);
+    };
 
     const handleTextChange = (e, label) => {
 
         switch (label){
             case 'Contraseña':
                 setPassword(e);
+                if (!validatePassword(e)) {
+                    setPasswordError("La contraseña debe tener al menos 6 caracteres, una letra mayúscula, una minúscula y un número.");
+                } else {
+                    setPasswordError("");
+                }
                 break;
             case 'Ingresa nuevamente la contraseña':
-                setConfirmPassword(e);
+                setConfirmPassword(e)
+                if (e !== password) {
+                    setConfirmPasswordError("Las contraseñas no coinciden.");
+                } else {
+                    setConfirmPasswordError("");
+                }
                 break;
             default:
                 alert(label);
         }
     }
 
-    const handleRegister = () => {
+    const handleRegister =  async () => {
+
+        if (!validatePassword(password)) {
+            setPasswordError("La contraseña debe tener al menos 6 caracteres, una letra mayúscula, una minúscula y un número.");
+            alert("La contraseña no cumple la regla")
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setConfirmPasswordError("Las contraseñas no coinciden.");
+            alert("Las contraseñas no coinciden")
+            return;
+        }
+
+
+
+        const notificationToken = await messaging().getToken();
         if (password === confirmPassword){
             dispatch(setPasswordSlice(password));
             const data = {
@@ -70,15 +103,19 @@ export const CreatePassword = ({navigation}) => {
                 nickname,
                 biography,
                 role:"USER",
+                notificationToken,
 
             }
             const flag = fetch_register(data,dispatch)
             if(flag){
                 alert("Ya sos parte de Social Connect! Inicia sesión")
+
                 navigation.navigate("Login");
             } else{
                 alert("Hubo un error a la hora de crear tu cuenta, volve a intentar.")
             }
+            setPassword("");
+            setConfirmPassword("");
         } else {
             alert("Las contraseñas deben coincidir")
         }
@@ -111,8 +148,17 @@ export const CreatePassword = ({navigation}) => {
                                 }
 
                                 onChangeText={(value) => handleTextChange(value, item.label)}
-
+                                error={
+                                    (item.label === 'Contraseña' && passwordError !== "") ||
+                                    (item.label === 'Ingresa nuevamente la contraseña' && confirmPasswordError !== "")
+                                }
                             />
+                            {item.label === 'Contraseña' && passwordError !== "" && (
+                                <Text style={{ color: 'red', fontSize: 12 }}>{passwordError}</Text>
+                            )}
+                            {item.label === 'Ingresa nuevamente la contraseña' && confirmPasswordError !== "" && (
+                                <Text style={{ color: 'red', fontSize: 12 }}>{confirmPasswordError}</Text>
+                            )}
                         </View>
                     ))
                 }

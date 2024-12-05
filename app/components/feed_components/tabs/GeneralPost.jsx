@@ -9,7 +9,7 @@ import { closeCommentModal } from "../../../redux/slices/modalSlice";
 import * as React from "react";
 import { fetch_posts } from "../../../api/fetch_post";
 import {TaggedPeople} from "../post_components/tagged_people/TaggedPeople";
-import store from "../../../redux/store";
+import {store} from "../../../redux/store";
 
 export const GeneralPost = () => {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export const GeneralPost = () => {
             <FlatList
                 data={posts}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => item?.postId ? <Post item={item} updatePosts={updatePosts} /> : null}
+                renderItem={({ item }) => item?.postId ? <Post item={item} setPosts={setPosts} posts={posts} /> : null}
                 showsVerticalScrollIndicator={false}
                 ItemSeparatorComponent={<View style={{ height: 10 }} />}
                 onEndReached={loadMore}

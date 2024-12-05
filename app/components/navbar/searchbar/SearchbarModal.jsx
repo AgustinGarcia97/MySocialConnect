@@ -7,7 +7,7 @@ import {View, Text,StyleSheet, ImageBackground, Button, TouchableOpacity} from "
 import 'react-native-get-random-values';
 
 import {closeSearchBarModal} from "../../../redux/slices/modalSlice";
-import {TextInput} from "react-native-paper";
+import {Avatar, TextInput} from "react-native-paper";
 import debounce from "debounce";
 import {searchUsers} from "../../../api/fetch_post";
 import {FlatList} from "react-native-gesture-handler";
@@ -37,7 +37,7 @@ export const SearchbarModal = () => {
             } catch (error) {
                 console.error("Error en la búsqueda:", error);
             }
-        }, 300),
+        }, 100),
         []);
 
 
@@ -99,6 +99,7 @@ export const SearchbarModal = () => {
                         <Text style={{fontSize:20, fontWeight:'bold',}}>BUSCAR USUARIOS</Text>
                     </View>
                     <View>
+
                         <TextInput
                             style={styles.input}
                             placeholder="Buscar usuario"
@@ -111,7 +112,21 @@ export const SearchbarModal = () => {
                             keyExtractor={(item,index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity onPress={()=>{handleSearch(navigation.navigate,item)}}>
-                                    <Text style={styles.userItem}>{item.name+" "+item.lastname}</Text>
+                                    <View style={{   borderBottomWidth: 1,
+                                        borderBottomColor: "#eee", flexDirection:'row', padding: 5, gap:10}}>
+                                        <View style={{width:'auto', justifyContent:'center',alignItems:'center'}}>
+                                            <Avatar.Image
+                                                size={55}
+                                                source={{ uri:item.profilePicture?.photoUrl? item?.profilePicture.photoUrl : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}
+                                                style={{justifyContent:'center',backgroundColor:'transparent'}} />
+                                        </View>
+                                        <View style={{width:'60%',justifyContent:'center',gap:5}}>
+                                            <Text style={{...styles.userItem,fontWeight:'bold',fontSize:15}}>{item.name+" "+item.lastname}</Text>
+                                            <Text style={styles.userItem}>{"@"+item.nickname}</Text>
+                                        </View>
+
+                                    </View>
+
                                 </TouchableOpacity>
 
                             )}
@@ -137,11 +152,12 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 5,
         marginBottom: 16,
+        backgroundColor: '#fff',
+
     },
     userItem: {
-        padding: 8,
-        borderBottomWidth: 1,
-        borderBottomColor: "#eee",
+
+
     },
 });
 

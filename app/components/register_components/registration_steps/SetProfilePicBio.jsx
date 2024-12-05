@@ -17,7 +17,12 @@ export const SetProfilePicBio = ({navigation}) => {
 
     const [bio, setBio] = useState('');
     const dispatch = useDispatch();
-
+    const [imageUri, setImageUri] = useState(null);
+    const handleContinue = () => {
+        setBio("");
+        setImageUri(null);
+        navigation.navigate("CreatePassword");
+    }
 
     return(
         <View style={{...createAccountStyle.create_account_container, alignItems:'center'}}>
@@ -34,7 +39,7 @@ export const SetProfilePicBio = ({navigation}) => {
 
 
                         <View  style={{...createAccountStyle.input_text_container, alignItems:'center'}}>
-                            <ProfileImagePicker/>
+                            <ProfileImagePicker imageUri={imageUri} setImageUri={setImageUri}/>
                         </View>
 
             </View>
@@ -59,7 +64,7 @@ export const SetProfilePicBio = ({navigation}) => {
             <View style={{...createAccountStyle.next_button_container,  marginVertical: 115,}}>
 
 
-                <TouchableOpacity onPress={() => navigation.navigate('CreatePassword')}>
+                <TouchableOpacity onPress={() => handleContinue()}>
                     <View style={{...createAccountStyle.next_button,backgroundColor:'#475a7e'}}>
                         <Text style={{...createAccountStyle.text_button,fontSize:20}}>Siguiente</Text>
                     </View>
@@ -76,8 +81,8 @@ export const SetProfilePicBio = ({navigation}) => {
     )
 }
 
-const ProfileImagePicker = () => {
-    const [imageUri, setImageUri] = useState(null);
+const ProfileImagePicker = ({imageUri,setImageUri}) => {
+
     const dispatch = useDispatch();
 
     const selectImage = async () => {

@@ -1,6 +1,7 @@
-import {fetchUserData, fetchUserError, loadingUserFetch} from "../redux/slices/userSlice";
+import {fetchNotifications, fetchUserData, fetchUserError, loadingUserFetch} from "../redux/slices/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {API_BASE_URL} from '@env';
+import messaging from "@react-native-firebase/messaging";
 
 export const fetch_login = async (dispatch, auth) => {
     try{
@@ -14,10 +15,10 @@ export const fetch_login = async (dispatch, auth) => {
         }
         dispatch(loadingUserFetch());
 
-        const response = await fetch(`${API_BASE_URL}/api/v1/auth/authenticate`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/auth/authenticate`, options);
         if(response.ok){
             const data = await response.json();
-            console.log("LOGIN:",data);
+            console.log("LOGIN:",JSON.stringify(data));
             dispatch(fetchUserData(data));
             return data;
         } else {
@@ -38,7 +39,7 @@ export const fetch_login = async (dispatch, auth) => {
 
 
 export const fetch_add_follow_followers = async ( data,token) => {
-
+    const device = await messaging().getToken();
     const options = {
         method: 'POST',
         headers:{
@@ -48,7 +49,7 @@ export const fetch_add_follow_followers = async ( data,token) => {
     }
 
 
-    const response = await fetch(`${API_BASE_URL}/api/v1/follow/${data.followerId}/follow/${data.followedId}`, options);
+    const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/follow/${data.followerId}/follow/${data.followedId}?device=${data.device}`, options);
     if(response.ok){
         return await response.json();
 
@@ -84,7 +85,7 @@ export const unfollow = async (data) => {
         }
     };
 
-    const url = `${API_BASE_URL}/api/v1/follow/${followerId}/unfollow/${followedId}`;
+    const url = `http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/follow/${followerId}/unfollow/${followedId}`;
 
     try {
         const response = await fetch(url, options);
@@ -113,7 +114,7 @@ export const fetch_following_posts = async (dispatch,userId,page,size) => {
         }
     }
     try{
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/follows?userId=${userId}&page=${page}&size=${10}`,options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/follows?userId=${userId}&page=${page}&size=${10}`,options);
         if(response.ok){
             return await response.json();
         } else{
@@ -139,7 +140,7 @@ export const fetch_update_user = async(data,userId) => {
             body: JSON.stringify(data)
 
         }
-        const response = await fetch(`${API_BASE_URL}/users/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com}/users/${userId}`, options);
         if(response.ok){
             alert("Usuario actualizado correctamente")
         }
@@ -155,7 +156,7 @@ export const fetch_update_user = async(data,userId) => {
 
     export const fetch_delete_account = async(userId) => {
         try{
-            alert(userId);
+
             const token = await AsyncStorage.getItem('userToken');
             const options = {
                 method: 'DELETE',
@@ -164,7 +165,7 @@ export const fetch_update_user = async(data,userId) => {
                     'Authorization': 'Bearer ' +  token
                 },
             }
-            const response = await fetch(`${API_BASE_URL}/users/${userId}`, options);
+            const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/users/${userId}`, options);
             if(response.ok){
                 return true;
             } else{
@@ -176,4 +177,35 @@ export const fetch_update_user = async(data,userId) => {
         catch(error){
             console.log("Error en la solicitud", error)
         }
+}
+
+export const fetch_notifications = async (dispatch,userId) => {
+    try{
+        const token = await AsyncStorage.getItem('userToken');
+        const options = {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' +  token
+            }
+        }
+
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/notifications/user?userId=${userId}`, options);
+        if(response.ok){
+            const data = await response.json();
+
+            dispatch(fetchNotifications(data));
+            return data;
+
+
+
+        }
+        else {
+            alert("Error en las notificaciones"+JSON.stringify(await response.json()))
+        }
+
+    }
+    catch(error){
+        console.log("Error:",error)
+    }
 }

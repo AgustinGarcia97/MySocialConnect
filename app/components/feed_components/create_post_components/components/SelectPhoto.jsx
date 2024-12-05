@@ -9,7 +9,7 @@ import {addPhotos} from "../../../../redux/slices/postSlice";
 
 
 const ImagePickerComponent = () => {
-    const [images, setImages] = useState([null, null, null, null]);
+    const [images, setImages] = useState(["", "", "", ""]);
     const dispatch = useDispatch();
 
     const selectImage = async (index) => {

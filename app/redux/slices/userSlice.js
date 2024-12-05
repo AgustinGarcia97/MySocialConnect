@@ -6,7 +6,7 @@ const initialState = {
     lastname:"",
     username:"",
     email:"",
-    posts: {},
+    posts: [],
     role: "",
     token: "",
     followers: [],
@@ -16,6 +16,7 @@ const initialState = {
     error:false,
     searched: {},
     bio: "",
+    notifications: [],
 }
 
 export const userSlice = createSlice({
@@ -41,9 +42,9 @@ export const userSlice = createSlice({
             state.profilePic = action.payload.profilePicture;
             state.userId = action.payload.userId;
             state.searched = [];
-
-
-
+        },
+        fetchNotifications: (state, action) => {
+            state.notifications = action.payload;
         },
         fetchUserError : (state, action) => {
             state.loading = false;
@@ -60,6 +61,7 @@ export const userSlice = createSlice({
             state.followers = [];
             state.following = [];
             state.profilePic = "";
+            state.notifications = [];
             state.token = null;
 
         },
@@ -73,7 +75,7 @@ export const userSlice = createSlice({
             state.lastname = action.payload;
         },
         updateUsername: (state, action) => {
-            state.username = action.payload;
+            state.nickname = action.payload;
         },
         updateProfilePic: (state, action) => {
             state.profilePic = action.payload;
@@ -88,18 +90,18 @@ export const userSlice = createSlice({
             );
 
             if (!isAlreadyFollowing) {
-                console.log("REDUX FOLLOWING ADD BEFORE:", state.following);
+
                 state.following = state.following.concat(action.payload);
-                console.log("REDUX FOLLOWING ADD AFTER:", state.following);
+
                 alert(JSON.stringify(state.following));
             } else {
                 console.warn(`User ${action.payload.username} is already being followed.`);
             }
         },
         removeFollowingUser:(state,action) => {
-            console.log("REDUX FOLLOWING REMOVE BEFORE:",state.following);
+
             state.following = state.following.filter((f) => f.userId !== action.payload);
-            console.log("REDUX FOLLOWING REMOVE AFTER:",state.following);
+
             alert(JSON.stringify(state.following))
         },
 
@@ -126,5 +128,6 @@ export const {
     updateBio,
     removeFollowingUser,
     addFollowingUser,
-    addPostsToUserList
+    addPostsToUserList,
+    fetchNotifications
 } = userSlice.actions;

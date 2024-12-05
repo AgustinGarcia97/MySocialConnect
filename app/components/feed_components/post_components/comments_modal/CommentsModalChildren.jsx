@@ -6,11 +6,11 @@ import {addComment, updateCommentLikes} from "../../../../redux/slices/postSlice
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {dislike, fetch_comments, fetchCreateComment, fetchLikeComment} from "../../../../api/fetch_post";
-const state = store.getState();
+import StyleSheet from 'react-native';
 
 import {FlatList} from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import store from "../../../../redux/store";
+import {store} from "../../../../redux/store";
 
 
 export const CommentsModalChildren = () => {
@@ -76,7 +76,7 @@ export const CommentsModalChildren = () => {
 
         if (comment) {
             const likeId = hasUserLiked(comment, userId);
-            alert(likeId)
+
             if (likeId) {
 
                 const data = await dislike(likeId, comment.commentId);
@@ -126,7 +126,7 @@ export const CommentsModalChildren = () => {
             </View>
 
                 <FlatList
-                    data={comments}
+                    data={comments || []}
                     renderItem={({ item }) => (
                         <CommentItem
                             item={item}
@@ -165,7 +165,7 @@ const CommentItem = ({ item, handleLikeComment }) => {
     const [liked, setLiked] = useState(item.likes ? item.likes.length : 0);
     const [isLiked, setIsLiked] = useState(item.likes?.some(like => like.user?.userId === userId) || false);
     const userId = useSelector((state) => state.user.userId);
-    console.log("liked", JSON.stringify(item.likes));
+
 
     useEffect(() => {
         setLiked(item.likes ? item.likes.length : 0);

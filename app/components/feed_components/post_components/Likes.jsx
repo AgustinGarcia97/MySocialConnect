@@ -13,9 +13,11 @@ export const Likes = ({item, isPressed, setIsPressed,countLikes,setCountLikes}) 
 
     if(token){
         if(item.likes && item.likes.length > 0){
+
             if (item.likes.some(like => like.user.userId === userId)) {
 
                 setIsPressed(true);
+
             }
         }
 
@@ -23,7 +25,7 @@ export const Likes = ({item, isPressed, setIsPressed,countLikes,setCountLikes}) 
 
 
     const pressButton = async () => {
-        setIsPressed(!isPressed);
+        setIsPressed(prevState => !prevState);
         const postId = item.postId;
 
         const data ={userId,postId}

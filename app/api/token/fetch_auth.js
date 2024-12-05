@@ -10,7 +10,8 @@ export const fetch_register = async (data,dispatch) => {
             },
             body: JSON.stringify(data)
         }
-        const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, options);
+
+        const response = await fetch(`${process.env.API_BASE_URL}/api/v1/auth/register`, options);
         if(response.ok){
             return await response.json();
         }

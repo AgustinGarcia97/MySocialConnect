@@ -14,10 +14,11 @@ export const Login = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
+        setEmail("")
+        setPassword("")
         const data = await fetch_login(dispatch, { email, password });
         if(data){
             dispatch(fetchUserData(data))
-            console.log("DATA:",JSON.stringify(data))
             await AsyncStorage.setItem("userToken", data.access_token);
             navigation.navigate('Feed');
 

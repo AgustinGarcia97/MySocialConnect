@@ -17,7 +17,6 @@ export const TaggedPeople = () => {
     const post = useSelector((state) => state.posts.actualPost);
     const tags = post?.tagged || [];
 
-
     useEffect(() => {
         setTagged(tags);
     }, [post]);

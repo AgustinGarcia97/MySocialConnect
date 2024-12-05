@@ -26,11 +26,11 @@ const renderItem = ({ item }) => {
 export const TaggedView =() =>{
     const [posts,setPost] = useState([]);
     const userId = useSelector((state) => state.user.userId);
-
+    const token = useSelector((state) => state.user.token);
 
     useEffect( () => {
         const fetchPosts = async () => {
-            const fetched = await fetch_taggedPost(userId);
+            const fetched = await fetch_taggedPost(userId,token);
             console.log(fetched);
             setPost(fetched);
 

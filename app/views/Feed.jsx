@@ -70,7 +70,7 @@ export const Feed = () => {
             <GeneralPost />
 
         )}
-            <SearchbarModal/>
+
             <CreatePostModal />
 
 

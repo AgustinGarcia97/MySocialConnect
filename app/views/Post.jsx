@@ -1,33 +1,25 @@
 import * as React from 'react';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
-import {post_style} from "../assets/styles/feed/feed_style";
-import {TouchableOpacity, View, StyleSheet, FlatList, useWindowDimensions, Image} from "react-native";
+import {useState} from 'react';
+import {Avatar, Text} from 'react-native-paper';
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 
 import {Comments} from "../components/feed_components/post_components/Comments";
 import {Likes} from "../components/feed_components/post_components/Likes";
-import {useEffect, useState} from "react";
-import {closeCommentModal, openCommentModal, openTaggedPeopleModal} from "../redux/slices/modalSlice";
+import {openCommentModal, openTaggedPeopleModal} from "../redux/slices/modalSlice";
 import {useDispatch, useSelector} from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import {Carousel} from "../components/feed_components/post_components/carousel/carousel_components/Carousel";
-import {BlurView} from "@react-native-community/blur";
 import {setActualPost} from "../redux/slices/postSlice";
-import {fetchDeletePost, fetchLikeComment} from "../api/fetch_post";
+import {fetchDeletePost} from "../api/fetch_post";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {TaggedPeople} from "../components/feed_components/post_components/tagged_people/TaggedPeople";
-
-
-
-
-
 
 
 const list = [1,2,3,4,5,6,7,8,9];
 const list2 = [1,2];
 
 
-export const Post = ({item,updatePosts}) => {
+export const Post = ({item,setPosts,posts}) => {
     const maxLength = 100;
     const dispatch = useDispatch();
     const [showFullText, setShowFullText] = useState(false);
@@ -35,7 +27,7 @@ export const Post = ({item,updatePosts}) => {
     const [isPressed, setIsPressed] = useState(false);
     const [countLikes,setCountLikes] = useState(item.likes?item.likes.length:0);
     const isLongText = item.description.length > maxLength;
-
+    const [visible,setVisible] = useState(true);
     const [showViewMore, setShowViewMore] = useState(false);
 
 
@@ -51,10 +43,10 @@ export const Post = ({item,updatePosts}) => {
         dispatch(openCommentModal());
 
     }
-
+    //
     const LeftContent = props => (  <Avatar.Image
         size={55}
-        source={{ uri: item.user.profilePicture?.photoUrl? item.user.profilePicture.photoUrl :  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}
+        source={{ uri:item.user.profilePicture?.photoUrl? item.user?.profilePicture.photoUrl : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }}
         style={{justifyContent:'center',backgroundColor:'transparent'}} />
     )
 
@@ -70,15 +62,21 @@ export const Post = ({item,updatePosts}) => {
     };
 
     const handleDeletePost = async (postId, dispatch) => {
-        const posts = await fetchDeletePost(postId, dispatch);
-        updatePosts(postId);
+        setVisible(false);
+         await fetchDeletePost(postId, dispatch);
+        alert(postId);
+        setPosts((prevPosts) => {
+            return prevPosts.filter((post) => post.postId !== postId);
+        });
+
+
 
 
 
     }
 
     return(
-
+        visible? (
 
                 <View style={{...style.feed_container}}>
                     <View style={{...style.user_data}}>
@@ -92,14 +90,14 @@ export const Post = ({item,updatePosts}) => {
                                     fontWeight:'bold',
                                     fontSize:23,
                                 }}
-                            >{item.user.name} {item.user.lastname}</Text>
+                            >{item.user?.name || ""} {item.user?.lastname||""}</Text>
                             <Text style={{
                                 color:'#fff',
                                 fontSize:15,
-                            }}>@{item.user.nickname}</Text>
+                            }}>@{item.user?.nickname||""}</Text>
                         </View>
                         <View  style={{marginLeft:110,alignItems:'center',gap:20}}>
-                            {userId === item.user.userId? (
+                            {userId === item.user?.userId||""? (
                                     <TouchableOpacity onPress={()=>handleDeletePost(item.postId,dispatch)}>
                                         <EvilIcons name={'trash'} style={{fontSize:30,color:'#fff'}} />
                                     </TouchableOpacity>)
@@ -151,7 +149,7 @@ export const Post = ({item,updatePosts}) => {
 
                     }}>
                         <Text style={{ marginHorizontal: -3 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.user.nickname}</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.user?.nickname || ""}</Text>
                             {' '}
                             {isLongText
                                 ? (showFullText ? item.description : item.description.substring(0, maxLength) + '...')
@@ -168,7 +166,7 @@ export const Post = ({item,updatePosts}) => {
                         <Text>Hace un dia</Text>
                     </View>
 
-                </View>
+                </View> ) : (<></>)
 
 
 

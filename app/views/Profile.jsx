@@ -1,9 +1,9 @@
-import { TouchableOpacity, View, TextInput,   } from "react-native";
+import { TouchableOpacity, View,    } from "react-native";
 import { profile_style } from "../assets/styles/profile/profile_style";
 import { ProfileTabView } from "../components/profile_components/user/ProfileTabView";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { IconButton, MD3Colors, Text,Avatar} from 'react-native-paper'
+import { IconButton, MD3Colors, Text,Avatar,TextInput,} from 'react-native-paper'
 import {updateBio, updateLastname, updateName, updateProfilePic, updateUsername} from "../redux/slices/userSlice";
 import {fetch_update_user} from "../api/fetch_user_data";
 
@@ -49,8 +49,8 @@ export const Profile = () => {
                 name,
                 lastname,
                 profilePic,
-                username,
-                bio
+                nickaname:username,
+                biography: bio
             }
             await fetch_update_user(data,userId);
         }
@@ -97,23 +97,42 @@ export const Profile = () => {
 
                     <View style={profile_style.user_profile_username_container}>
                         {isEditing ? (
-                            <TextInput
-                                mode="outlined"
-                                value={name}
-                                onChangeText={setName}
-                                style={profile_style.name_text}
-                                placeholder="Nombre"
-                            />
+                            <View style={{flexDirection: 'row', width:'70%',marginTop:15, marginVertical:5}}>
+                                <TextInput
+                                    mode="outlined"
+                                    value={name}
+                                    onChangeText={setName}
+                                    style={{...profile_style.name_text, }}
+                                    placeholder="Nombre"
+                                    label={"nombre"}
+                                    outlineColor="black"
+                                />
+                                <TextInput
+                                    mode="outlined"
+                                    value={lastname}
+                                    label={"apellido"}
+                                    onChangeText={setLastName}
+                                    style={profile_style.name_text}
+                                    placeholder="Apellido"
+                                />
+                            </View>
+
+
+
                         ) : (
                             <Text style={profile_style.name_text}>{name + " " + lastname}</Text>
                         )}
 
                         {isEditing ? (
+
                             <TextInput
                                 mode="outlined"
                                 value={username}
+                                label={"username"}
                                 onChangeText={setUsername}
-                                style={profile_style.username_text}
+                                style={{...profile_style.username_text,
+                                    borderColor: '#000',
+                                   width:'70%'}}
                                 placeholder="Username"
                             />
                         ) : (
@@ -127,10 +146,14 @@ export const Profile = () => {
                         <TextInput
                             mode="outlined"
                             multiline
+                            label={"bio"}
                             value={bio}
                             onChangeText={setBio}
-                            style={profile_style.bio_text}
+                            style={{...profile_style.bio_text,
+                                borderColor: '#000',
+                               marginTop:40, marginVertical:5}}
                             placeholder="Bio"
+
                         />
                     ) : (
                         <Text style={profile_style.bio_text}>{bio}</Text>

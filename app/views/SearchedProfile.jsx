@@ -40,7 +40,7 @@ export const SearchedProfile = () => {
     useEffect(() => {
         setName(searchedUser.name);
         setLastname(searchedUser.lastname);
-        setUsername(searchedUser.username);
+        setUsername(searchedUser.nickname);
         setProfilePicture(searchedUser.profilePicture);
         setPosts(searchedUser.posts.length);
         setBio(searchedUser.biography);

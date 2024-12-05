@@ -25,7 +25,7 @@ export const Carousel = ({item}) => {
                 onScroll={onScroll}
             />
 
-            {item.photoList.length > 0 && (
+            {Array.isArray(item.photoList) && item.photoList.length > 0 && (
                 <View style={styles.paginator}>
                     {item.photoList.map((_, index) => (
                         <TouchableOpacity

@@ -8,6 +8,7 @@ import {
 import data from "../components/feed_components/post_components/carousel/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from '@env';
+import messaging from "@react-native-firebase/messaging";
 export const fetch_posts =  async (dispatch,pageNumber,pageSize) => {
     try{
         const options = {
@@ -16,7 +17,7 @@ export const fetch_posts =  async (dispatch,pageNumber,pageSize) => {
         }
 
         dispatch(fetchPostStart());
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/fetch?page=${pageNumber}&size=${3}`,options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/fetch?page=${pageNumber}&size=${3}`,options);
         if(response.ok){
 
             const data = await response.json();
@@ -48,7 +49,7 @@ export const fetch_post = async (postId,dispatch) => {
             },
         }
         dispatch(fetchPostStart());
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/${postId}`,options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/${postId}`,options);
 
         if(response.ok){
             const data = await response.json();
@@ -83,7 +84,7 @@ export const fetch_comments = async (dispatch,postId,) => {
         }
         dispatch(fetchStartComment());
 
-        const response = await fetch(`${API_BASE_URL}/api/v1/comments/post/${postId}`,options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/comments/post/${postId}`,options);
         if(response.ok){
             return await response.json();
         }
@@ -114,7 +115,7 @@ export const fetchCreateComment = async (dispatch,data) => {
         };
 
 
-        const response = await fetch(`${API_BASE_URL}/api/v1/comments/create`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/comments/create`, options);
 
         if (response.ok) {
             const data = await response.json();
@@ -136,6 +137,7 @@ export const fetchCreateComment = async (dispatch,data) => {
 export const fetchCreatePost =  async (data,dispatch) => {
     try{
         const token = await AsyncStorage.getItem('userToken');
+        const device = await messaging().getToken();
         console.log('BODY: '+JSON.stringify(data));
         const options = {
             method: 'POST',
@@ -146,28 +148,29 @@ export const fetchCreatePost =  async (data,dispatch) => {
             body: JSON.stringify(data),
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/create`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/create?device=${device}`, options);
         if (response.ok) {
-            alert("Post creado!")
-            const data = await response.json();
+
+            const r = await response.json();
+
             const newPost = {
-                postId: data.postId,
-                title: data.title,
+                postId: r.postId,
+                title: r.title,
                 description: data.description,
-                photos: data.photos,
+                photoList: r.photoList,
                 user:{
-                    name: data.user.name,
-                    userId: data.user.userId,
-                    lastname: data.user.lastname,
-                    username:data.user.nickname
+                    name: r.user.name,
+                    userId: r.user.userId,
+                    lastname: r.user.lastname,
+                    nickname:r.user.nickname
                 },
-                location: data.location,
+                location: r.location,
 
-                likes: data.likes,
-                comments: data.comments,
-                tagged: data.tagged,
+                likes: r.likes,
+                comments: r.comments,
+                tagged: r.tagged,
             }
-
+            alert("New Post:"+ JSON.stringify(newPost));
             dispatch(addPosts(newPost));
 
         }else{
@@ -183,6 +186,7 @@ export const fetchCreatePost =  async (data,dispatch) => {
 export const fetchLikeComment = async (request) => {
     try {
         const token = await AsyncStorage.getItem('userToken');
+        const device = await messaging().getToken();
         const options = {
             method: 'POST',
             headers: {
@@ -192,10 +196,10 @@ export const fetchLikeComment = async (request) => {
             body: JSON.stringify(request),
         };
 
-        const response = await fetch(`${API_BASE_URL}/like/create`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/create?device=${device}`, options);
         if (response.ok) {
             const data = await response.json();
-            console.log("Like creado:", data);
+
             return {
 
                 userId: data.user.userId,
@@ -221,7 +225,7 @@ export const dislike = async (likeId,commentId,dispatch) => {
             }
         }
 
-        const response = await fetch(`${API_BASE_URL}/like/${likeId}/${commentId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/${likeId}/${commentId}`, options);
         if(response.ok()){
             return await response.json();
         }
@@ -248,7 +252,7 @@ export const dislike_post = async (postId,userId,dispatch) => {
                 postId: postId,
             },
         }
-        const response = await fetch(`${API_BASE_URL}/like/${postId}/user/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/like/${postId}/user/${userId}`, options);
         if (response.ok()){
             return await response.json();
         }
@@ -274,7 +278,7 @@ export async function searchUsers(searchUser) {
         }),
     }
 
-    const response = await fetch(`${API_BASE_URL}/users/user`,options );
+    const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/users/user`,options );
 
     if (!response.ok) {
         throw new Error("Error en la búsqueda de usuarios"+ response.error);
@@ -296,7 +300,7 @@ export const fetchDeletePost = async (postId,dispatch) => {
     }
 
     try{
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/${postId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/${postId}`, options);
         if(response.ok){
             alert("Post borrado exitosamente");
             dispatch(deletePost(postId))
@@ -320,10 +324,10 @@ export const fetch_taggedPost = async (userId) => {
             method: "GET",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " +  token
+
             }
         }
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/tag/${userId}`, options);
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/tag/${userId}`, options);
         if(response.ok){
             return await response.json();
         }
@@ -343,10 +347,11 @@ export const fetch_likedPost = async (userId) => {
             method: "GET",
             headers:{
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " +  token
+
             }
         }
-        const response = await fetch(`${API_BASE_URL}/api/v1/posts/like/${userId}`,options);
+
+        const response = await fetch(`http://socialconnectserver-env-final.eba-39bs2mf3.us-east-1.elasticbeanstalk.com/api/v1/posts/like/${userId}`,options);
         if(response.ok){
             return await response.json();
         }

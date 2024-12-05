@@ -28,8 +28,6 @@ export const ProfileSearchTabView = () => {
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'first', title: 'Publicaciones' },
-        { key: 'second', title: 'Me gusta' },
-        {key:'third', title: 'Etiquetado' },
     ]);
 
     return (

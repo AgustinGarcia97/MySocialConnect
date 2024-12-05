@@ -8,6 +8,7 @@ const initialState = {
     openLocationModal:false,
     openTaggedPeopleModal:false,
     openSearchBarModal:false,
+    openNotificationModal:false,
 
 }
 
@@ -56,6 +57,12 @@ export const modalSlice = createSlice({
         },
         closeSearchBarModal: (state) => {
             state.openSearchBarModal = false;
+        },
+        openNotificationModal: (state) => {
+            state.openNotificationModal = true;
+        },
+        closeNotificationModal: (state) => {
+            state.openNotificationModal = false;
         }
 
     },
@@ -73,6 +80,8 @@ export const {
     openTaggedPeopleModal,
     closeTaggedPeopleModal,
     openSearchBarModal,
-    closeSearchBarModal
+    closeSearchBarModal,
+    openNotificationModal,
+    closeNotificationModal
 
 } = modalSlice.actions;

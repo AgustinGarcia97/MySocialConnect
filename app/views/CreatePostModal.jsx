@@ -8,7 +8,7 @@ import SelectPhoto from "../components/feed_components/create_post_components/co
 import {UserData} from "../components/feed_components/create_post_components/components/UserData";
 import {TextComponent} from "../components/feed_components/create_post_components/components/TextComponent";
 import {Options} from "../components/feed_components/create_post_components/components/Options";
-import {addPosts, createPost} from "../redux/slices/postSlice";
+import {addPosts, createPost, removeLocation, removeTagged} from "../redux/slices/postSlice";
 import {fetchCreatePost} from "../api/fetch_post";
 import {TaggedPeople} from "../components/feed_components/post_components/tagged_people/TaggedPeople";
 import {AddLocationModal} from "../components/feed_components/create_post_components/add_location/AddLocationModal";
@@ -29,7 +29,10 @@ export const  CreatePostModal =  props => {
     const open = useSelector((state) => state.modal.openPostModal);
     const handleSheetChanges = useCallback((index) => {
         if (index === -1) {
+            dispatch(removeTagged());
+            dispatch(removeLocation());
             dispatch(closePostModal());
+
         }
     }, [dispatch]);
 
@@ -55,6 +58,7 @@ export const  CreatePostModal =  props => {
         }
         dispatch(addPostsToUserList(data));
         await fetchCreatePost(data,dispatch);
+        dispatch(removeTagged());
         dispatch(closePostModal());
 
 
